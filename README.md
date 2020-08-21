@@ -16,8 +16,6 @@ This README.md file is undergoing Reconstruction currently.
 
 This README.md file is being split into several files, so that each directory has a REDME.md file in it to explain those categories more effectively, while trying to keep this one minimalized. Those files are currently being worked on tonight, Aug 16th, 2020.
 
-
-
 ## DynCityStdLib
 This StdLib will allow for several small cities to be spawned or for one large city to be spawned, it will account for building size, and passage between them.
 <details>
@@ -35,15 +33,6 @@ A log feature set, set aside for the other scripts in this collection.
 
 ## Building Size Project
 A project that is recording the size of the buildings in the game.
-
-# Wilzuun Scripts Library
-##### By ^TFW^ Wilzuun
-
-These scripts were not made by ^TFW^Wilzuun.
-
-They've been borrowed from other authors. 
-
-Possibly even made for this project specifically.
 
 # Game Types
 
