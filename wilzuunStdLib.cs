@@ -86,6 +86,163 @@ $allow["Artillery"] = false;
 
 
 ##--------------------------- Functions
+//  abs(%int) : int
+//      Returns the absolute value of %int.
+function abs(%this)
+{
+    if (%this > -%this)
+        return %this;
+    else
+        return -%this;
+}
+
+//  min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
+//      Returns the smallest number in a collection.
+function min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
+{
+    %min = %n0;
+    for (%count = 0; %count < 10; %count = %count+1)
+    {
+        if (%n[count] != "")
+            if (%min > %n[%count])
+                %min = %n[%count];
+    }
+    return %min;
+}
+
+//  max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
+//      Returns the largest number in a collection.
+function max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
+{
+    %max = %n0;
+    for (%count = 0; %count < 10; %count = %count+1)
+    {
+        if (%n[count] != "")
+            if (%max < %n[%count])
+                %max = %n[%count];
+    }
+    return %max;
+}
+
+//  shape::getNextId(%groupName) : int
+//      Starts up a check for a used ID, and returns the first identified unused ID for the %groupName supplied.
+//      Example: Currently existing groups for `Circle`: Circle0, Circle2. Running this will return 1. A seecond call would return 3.
+function shape::getNextId(%groupName)
+{
+    %checkId = 0;
+    while(shape::__IdUsed(%groupName, %checkId))
+    {
+        %checkId = %checkId + 1;
+    }
+    return %checkId;
+}
+
+//  shape::__IdUsed(%groupName, %id) : boolean
+//      Checks each item at the MissionGroup base level for a group called %groupName followed by a a number designation of %id.
+//      Example: Existing `Circle` groups: Circle0, Circle1, Circle2
+//          Supplying 1 as an ID, would give you `true`, using 3 as an ID would result in a `false`
+function shape::__IdUsed(%groupName, %id)
+{
+    %group = getObjectId("MissionGroup");
+    %item = getNextObject(%group, 0);
+    for (%count = 0; %item != 0; %count = %count+1)
+    {
+        if (getObjectName(%item) == %groupName @ %id)
+        {
+            return true;
+        }
+        %item = getNextObject(%group, %item);
+    }
+    return false;
+}
+
+function shape::Cleanup(%groupName, %id)
+{
+    if (%obj == "" || %id == "")
+        return echo("shape::Cleanup <GroupName> <id>");
+
+    if (shape::__IdUsed(%groupName, %id))
+        deleteObject(%groupName @ %id );
+    else
+        echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.")
+}
+
+function spawnObject(%obj, %name)
+{
+    // check for %obj being set. Otherwise reject.
+    if (%obj == "")
+        return echo("spawnObject <%obj> [%name]");
+    // A name isn't required, and if they opt out of it, make the %name equal to the %obj value.
+    if (%name == "")
+        %name = %obj;
+    
+
+    %type = getObjectType(%obj);
+    // Check to see if it exists as a StaticShape.
+    if (%type == StaticShape)
+    {
+        %file = %obj @ ".dts";
+    }
+    // Not found? See if its a StaticInterior Shape.
+    else if (%type == StaticInterior)
+    {
+        %file = %obj @ ".dis";
+    }
+    // We still didnt find it... oh well, must not exist.
+    else
+    {
+        return echo("Item '" @ %obj @ "' not found. Reminder, this function will not work on Vehicles or Turrets.");
+    }
+    // Create the object. Add the object to the MissionGroup, so if you're in ME, it can be muddled with.
+    %obj = newObject(%name, %type, %file);
+    addToSet("MissionGroup", %obj);
+    // Return object so that script caller can modify it themselves. (Like, location, rotation, etc.)
+    return %obj;
+}
+
+function getObjectType(%objName)
+{
+    // if they omit the %objName, inform them they need it.
+    if (%objName == "")
+    {
+        echo("getObjectType <%obj>");
+        return false;
+    }
+    if (GetPathOf(%objName @ ".dts") != "")
+    {
+        return StaticShape;
+    }
+    else if (GetPathOf(%objName @ ".dis") != "")
+    {
+        return StaticInterior;
+    }
+    // not found... uhoh. Return false.
+    else
+    {
+        echo("Item '" @ %objName @ "' not found. Reminder, this function will not work on Vehicles or Turrets.");
+        return false;
+    }
+}
+
+// These two functions were stolen from the internet, and adapted to fit starsiege.
+
+function positionX(%numItems, %thisNum, %radius)
+{
+    %alpha = 360/%numItems; // angle between the elements
+    %angle = %alpha * %thisNum; // angle for N element
+    %x = %radius * cos(%angle); // X coordinates
+    return %x;
+}
+
+function positionY(%numItems, %thisNum, %radius)
+{
+    %alpha = 360/%numItems; // angle between the elements
+    %angle = %alpha * %thisNum; // angle for N element
+    %y = %radius * sin(%angle); // Y coordinates
+    return %y;
+}
+
+
 // Modified to allow on the fly changes. left blank, will use the above settings.
 function wilzuun::loadVehicle(%name, %hercs, %tanks, %ter, %kni, %pir, %reb, %cyb, %met, %spe, %dis, %art) 
 {
@@ -262,142 +419,3 @@ function wilzuun::loadVehicle(%name, %hercs, %tanks, %ter, %kni, %pir, %reb, %cy
     %rand = randomInt(1,%swarmCount);
     return loadobject(%name, "vehId_" @ %swarmMembers[%rand] @ ".veh");
 }
-
-//  abs(%int) : int
-//      Returns the absolute value of %int.
-function abs(%this)
-{
-    if (%this > -%this)
-        return %this;
-    else
-        return -%this;
-}
-
-//  min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
-//      Returns the smallest number in a collection.
-function min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
-{
-    %min = %n0;
-    for (%count = 0; %count < 10; %count = %count+1)
-    {
-        if (%n[count] != "")
-            if (%min > %n[%count])
-                %min = %n[%count];
-    }
-    return %min;
-}
-
-//  max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
-//      Returns the largest number in a collection.
-function max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
-{
-    %max = %n0;
-    for (%count = 0; %count < 10; %count = %count+1)
-    {
-        if (%n[count] != "")
-            if (%max < %n[%count])
-                %max = %n[%count];
-    }
-    return %max;
-}
-
-//  shape::getNextId(%groupName) : int
-//      Starts up a check for a used ID, and returns the first identified unused ID for the %groupName supplied.
-//      Example: Currently existing groups for `Circle`: Circle0, Circle2. Running this will return 1. A seecond call would return 3.
-function shape::getNextId(%groupName)
-{
-    %checkId = 0;
-    while(shape::__IdUsed(%groupName, %checkId))
-    {
-        %checkId = %checkId + 1;
-    }
-    return %checkId;
-}
-
-//  shape::__IdUsed(%groupName, %id) : boolean
-//      Checks each item at the MissionGroup base level for a group called %groupName followed by a a number designation of %id.
-//      Example: Existing `Circle` groups: Circle0, Circle1, Circle2
-//          Supplying 1 as an ID, would give you `true`, using 3 as an ID would result in a `false`
-function shape::__IdUsed(%groupName, %id)
-{
-    %group = getObjectId("MissionGroup");
-    %item = getNextObject(%group, 0);
-    for (%count = 0; %item != 0; %count = %count+1)
-    {
-        if (getObjectName(%item) == %groupName @ %id)
-        {
-            return true;
-        }
-        %item = getNextObject(%group, %item);
-    }
-    return false;
-}
-
-function shape::Cleanup(%groupName, %id)
-{
-    if (%obj == "" || %id == "")
-        return echo("shape::Cleanup <GroupName> <id>");
-
-    if (shape::__IdUsed(%groupName, %id))
-        deleteObject(%groupName @ %id );
-    else
-        echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.")
-}
-
-function spawnObject(%obj, %name)
-{
-    // check for %obj being set. Otherwise reject.
-    if (%obj == "")
-        return echo("spawnObject <%obj> [%name]");
-    // A name isn't required, and if they opt out of it, make the %name equal to the %obj value.
-    if (%name == "")
-        %name = %obj;
-    
-
-    %type = getObjectType(%obj);
-    // Check to see if it exists as a StaticShape.
-    if (%type == StaticShape)
-    {
-        %file = %obj @ ".dts";
-    }
-    // Not found? See if its a StaticInterior Shape.
-    else if (%type == StaticInterior)
-    {
-        %file = %obj @ ".dis";
-    }
-    // We still didnt find it... oh well, must not exist.
-    else
-    {
-        return echo("Item '" @ %obj @ "' not found.");
-    }
-    // Create the object. Add the object to the MissionGroup, so if you're in ME, it can be muddled with.
-    %obj = newObject(%name, %type, %file);
-    addToSet("MissionGroup", %obj);
-    // Return object so that script caller can modify it themselves. (Like, location, rotation, etc.)
-    return %obj;
-}
-
-function getObjectType(%objName)
-{
-    // if they omit the %objName, inform them they need it.
-    if (%objName == "")
-    {
-        echo("getObjectType <%obj>");
-        return false;
-    }
-    if (GetPathOf(%objName @ ".dts") != "")
-    {
-        return StaticShape;
-    }
-    else if (GetPathOf(%objName @ ".dis") != "")
-    {
-        return StaticInterior;
-    }
-    // not found... uhoh. Return false.
-    else
-    {
-        echo("Item '" @ %objName @ "' not found.");
-        return false;
-    }
-}
-

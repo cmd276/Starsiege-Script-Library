@@ -11,36 +11,6 @@
 ##--------------------------- Notes
 
 ##--------------------------- On-The-Fly Settings
-// Feel free to edit this variables in your own scripts as much as you want.
-// These are more of a default setup, so one can minimally do something, and see results.
-
-//  $line::radius : int
-//      User supplied size of the shape that will be spawned.
-//      POSITIVE INTEGERS ONLY!
-$line::radius      = 30;
-
-$line:spacing      = 2;     // space between objects.
-$line::underground = false; // spawn even if underground?
-
-$line::xOffset     = 0;     // x origin point
-$line::yOffset     = 0;     // y    "     "
-$line::zOffset     = 0;     // z    "     "
-$line::zCenter     = true;  // apply same height to all objects?
-
-$line::zRotate     = false; // make it rotate Z?
-$line::xRotate     = false; //  "   "    "    X?
-
-$line::zRotMod     = 0;     // Rotation for z
-$line::xRotMod     = 90;    //     "     "  x
-
-$line::markCenter  = true;  // Mark center of shape?
-$line::marker     = "";     // object name to use.
-
-//  $line::sides
-//      How many sides are we going to spawn for this shape?
-//      Positive numbers only.
-$line::sides       = 4;
-
 //  $line::Object
 //      The object that we're going to be using for the sides.
 $line::Object      = "xMonument";
@@ -50,25 +20,37 @@ $line::Object      = "xMonument";
 $line::GroupName = "TheShape";
 
 ##--------------------------- Functions
-function line::Create(%sides, %spacing, %radius)
+function line::Create(%sideCount, %radius)
 {
-    if (%sides == "")
-        %sides = $line::sides;
-    if (%spacing == "")
-        %spacing = $line::spacing;
-    if (%radius == "")
-        %radius = $line::radius;
-    
-    // will change to a much higher number later.
-    %angles = 360;
-    // Technically, should equal out to 90 deg.
-    %arcAngle = %angle/4;
-
     // foreach side do this...
-    for(%item=0;%item<=%sides;%item++)
+    for(%side=0;%side<=%sideCount;%side++)
     {
-        %sideDropX[%item] = positionX(%item, %sides, %radius);
-        %sideDropY[%item] = positionY(%item, %sides, %radius);
+        %sides[%side,'x'] = positionX(%side, %sideCount, %radius);
+        %sides[%side,'y'] = positionY(%side, %sideCount, %radius);
     }
-    
+
+    for(%side = 0; %side < %sideCount-1; %side++)
+    {
+        %x0 = %sides[%side,'x'];
+        %y0 = %sides[%side,'y'];
+
+        %x1 =  %sides[%side+1,'x'];
+        %y1 =  %sides[%side+1,'y'];
+
+        line::fill(%x0, %y0, %x1, %y1);
+    }
+}
+/// hen the point (xt,yt)=(((1−t)x0+tx1),((1−t)y0+ty1))
+
+// https://math.stackexchange.com/questions/175896/finding-a-point-along-a-line-a-certain-distance-away-from-another-point
+function line::Fill (%x0, %y0, %x1, %y1) {
+    %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
+    for(%a = 0; %a <= floor(%d); %a++)
+    {
+        %obj = spawnObject($line::Object);
+        %t = %a/%d;
+        %xN = ((1 - %t) * %x0 + %t * %x1);
+        %yN = ((1 - %t) * %y0 + %t * %y1);
+        setPosition(%obj, %xN, %yN, getTerrainHeight(%xN, %yN), 0, 0);
+    }
 }

@@ -4,50 +4,6 @@
 // LAST MOD:    10 Dec 2019
 // VERSION:     2.0
 
-##--------------------------- Version History
-//  --  Version History
-//
-//  3.0
-//      Added in options for XZ, YZ plane circles.
-//      Added functions:
-//          setPlane()
-//
-//  2.4
-//      Better documentation of variable names and usage.
-//      Added in feature to make all items spawn at the same height.
-//      Added in Center of circle marker option
-//
-//  2.3
-//      -What did I do?-
-//
-//  2.2
-//      Organized functions and variables to be in alphabetical order.
-//
-//  2.1
-//      Added few safe gaurds to make sure objects actually spawn.
-//      Fixed seemingly random unit from existing by deleting it. (SetObject now deletes the object handed to it)
-//
-//  2.0
-//      Created namespace `Circle`
-//      Rewrote great majority of code to fit into new namespace.
-//      Expanded functions.
-//          Created Cleanup()
-//          Created Init()
-//          Created SetCount()
-//          Created SetLocation()
-//          Created SetMode()
-//          Created SetObject()
-//          Created SetSize()
-//          Renamed `makeCircle()` to `SpawnCircle()`
-//
-//  1.5
-//      Added Mode types, and correlating formulas
-//
-//  1.0
-//      Basic circle creation.
-//      Added Offsets.
-//      Added custome objects.
-//
 ##--------------------------- Notes
 
 ##--------------------------- On-The-Fly Settings
@@ -99,7 +55,7 @@ $circle::underground = false;
 
 ##--------------------------- Concrete Settings
 // Please don't edit these, unless you understand the issues you may cause.
-$circle::GroupName = "TheCircle";
+$circle::GroupName = "Circle";
 
 ##--------------------------- Functions
 
@@ -108,65 +64,121 @@ function circle::Cleanup(%id)
     deleteObject($circle::GroupName, %id );
 }
 
-function Circle::Create (%object, %radius, %count, %xOffset, %yOffset, %zOffset)
+
+function Circle::Spawn (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffset, %plane)
 {
-    // Get an ID, and create a group. Add that group to the mission items.
-    %id = shape::getNextId(%groupName);
-    %group = newObject($sphere::GroupName @ %id, SimGroup);
+    // Get a new ID, make a group, add the group to the game.
+    %id = shape::getNextId($circle::groupName);
+    %group = newObject($circle::GroupName @ %id, SimGroup);
     addToSet("MissionGroup", %group);
 
-    if ($circle::markCenter)
+    if ($circle::markCenter == true)
     {
-        %item = newObject("CenterMarker",getObjectType($circle::marker), $circle::marker);
-        addToSet(%group, %item);
-        setPosition(%item, %xOffset, %yOffest, %zOffset);
-    }    
-
-    if ($circle::zCenter)
-        %zBase = getTerrainHeight(%xOffset, %yOffset);
-
-    %tSin = sin((360/1));
-    %tCos = cos((360/1));
-
-    for (%h = 0; %h <= %count; %h++)
+        // $circle::marker = loadObject(%object, "object_circleStdLib");
+        %newMarker = spawnObject(%object);
+        addToSet(%group,%newMarker);
+        %xPos = %xOffset;
+        %yPos = %yOffset;
+        %zPos = getTerrainHeight(%xPos, %yPos) + %zOffset;
+        setPosition($circle::marker, %xPos, %yPos, %zPos, 0, 0);
+    }
+    // For each item within the count, find its position, and place it.
+    for(%item=0;%item<=%itemCount;%item++)
     {
-        %sCos = cos((360/%count) * %h);
-        %sSin = sin((360/%hSpawn) * %h);
-        // Sigma Angle.
-        // this dictates rotation around the Z axis.
-        %sCos = cos((360/%hSpawn) * %h);
-        %sSin = sin((360/%hSpawn) * %h);
-
-        // Find out placement of the item...
-        %xPos = %radius * %sCos * %tSin;
-        %yPos = %radius * %sSin * %tSin;
-        %zBase = getTerrainHeight(%xPos, %yPos);
-        if ($circle::zCenter)
-            %zBase = getTerrainHeight(%xOffset, %yOffset);
-        if ($circle::onGround)
-            %zBase = getTerrainHeight(%xPos, %yPos);
-        %zPos = (%radius * %tCos) + %zBase + %zOffset;
+        // We're going to ass XY plane first.
+        %xPos = positionX(%itemCount, %item, %radius) + %xOffset;
+        %yPos = positionY(%itemCount, %item, %radius) + %yOffset;
+        %zPos = getTerrainHeight(%xPos, %yPos);
+        if ($circle::zCenter == true)
+            %zPos = getTerrainHeight(%xOffset, %yOffset);
+        
+        // Now, check for a plane change, and redo the math.
+        if ((%plane == "yz") || (%plane == "zy"))
+        {
+            %xPos = positionX(%itemCount, %item, %radius) + %xOffset;
+            %yPos = %yOffset;
+            %zPos = getTerrainHeight(%xPos, %yPos) + positionY(%itemCount, %item, %radius);
+        }
+        if ((%plane == "xz") || (%plane == "zx"))
+        {
+            %xPos = %xOffset;
+            %yPos = positionY(%itemCount, %item, %radius) + %yOffset;
+            %zPos = getTerrainHeight(%xPos, %yPos) + positionX(%itemCount, %item, %radius);
+        }
         %zPos = %zPos + %zOffset;
 
+        // Are we spinning the objet?
         if ($circle::zRotate)
         {
-            %zRot = getAngle(%xOffset, %yOffest, %xPos, %yPos);
-            if (%zRot == "") %zRot = 90;
+            %zRot = getAngle(%xOffset, %yOffset, %xPos, %yPos);
+            if (%zRot == "") %zRot = 90; // its some weird bug, dont ask me.
             %zRot = %zRot + $circle::zRotMod;
         }
-        else %zRot = 0;
+        else
+            %zRot = 0;
+        
+        // This determines the rotation or "tilt" of the object.
+        if ($circle::xRotate)
+            %xRot = $circle::xRotMod;
+        else
+            %xRot = 0;
 
-        if ($circle::xRotate) %xRot = $circle::xRotMod;
-        else %xRot = 0;
-
+        // Spawn the %object if we want it.
         if (($circle::underground == true) ||
             (($circle::underground == false) && (%zPos >= getTerrainHeight(%xPos, %yPos)))
            )
         {
-            
+            %newMarker = spawnObject(%object);
+            addToSet(%group,%newMarker);
+            setPosition(%newMarker, %xPos, %yPos, %zPos, %zRot, %xRot);
         }
     }
-
-    // End of Function, return ID
+    
     return %id;
 }
+
+##--------------------------- Version History
+//  --  Version History
+//
+//  3.0
+//      Added in options for XZ, YZ plane circles.
+//      Added functions:
+//          setPlane()
+//
+//  2.4
+//      Better documentation of variable names and usage.
+//      Added in feature to make all items spawn at the same height.
+//      Added in Center of circle marker option
+//
+//  2.3
+//      -What did I do?-
+//
+//  2.2
+//      Organized functions and variables to be in alphabetical order.
+//
+//  2.1
+//      Added few safe gaurds to make sure objects actually spawn.
+//      Fixed seemingly random unit from existing by deleting it. (SetObject now deletes the object handed to it)
+//
+//  2.0
+//      Created namespace `Circle`
+//      Rewrote great majority of code to fit into new namespace.
+//      Expanded functions.
+//          Created Cleanup()
+//          Created Init()
+//          Created SetCount()
+//          Created SetLocation()
+//          Created SetMode()
+//          Created SetObject()
+//          Created SetSize()
+//          Renamed `makeCircle()` to `SpawnCircle()`
+//
+//  1.5
+//      Added Mode types, and correlating formulas
+//
+//  1.0
+//      Basic circle creation.
+//      Added Offsets.
+//      Added custome objects.
+//
+

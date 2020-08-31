@@ -111,11 +111,11 @@ function Mission::OnPreLoad() ()
 
     else if ($wilzuun::GameType == "tag")
     {
-        exec("wilzuun\\gameTypes\\tag\\TagStdLib.cs");
+        exec("TagStdLib.cs");
     }
     else if ($wilzuun::GameType == "edm")
     {
-        exec("wilzuun\\gameTypes\\edm\\EDMStdLib.cs");
+        exec("EDMStdLib.cs");
     }
     else 
     {

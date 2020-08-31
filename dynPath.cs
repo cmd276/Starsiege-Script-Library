@@ -10,7 +10,7 @@
 //Origin points. Players will be put within a vicinity of this area.
 $dps::origin['x'] = 0;
 $dps::origin['y'] = 0; 
-$dps::origin['-'] = 50;
+$dps::origin['r'] = 50;
 
 //How many way-points are we making?
 $dps::links = 10; // Default will be Zero.
@@ -24,6 +24,7 @@ $dps::space['variance'] = 0.15;
 
 // Jitter: Used for random math angles. 
 // If you modify it, make sure its in multiples of 360.
+// Recommend leaving it at 360.
 $dps::jitter = 360;
 
 // Enabled: Tells the script to take control of a few items.
@@ -35,28 +36,35 @@ $dps::quad['2'] = true; // N.W
 $dps::quad['3'] = true; // S.W
 $dps::quad['4'] = true; // S.E
 
-function getDirection()
+function dps::getDirection(%quad1, %quad2, %quad3, %quad4)
 {
     %count = -1;
-    if ($dps::quad['1']) %opt[%count++] = randomInt(0,89);
-    if ($dps::quad['2']) %opt[%count++] = randomInt(90,179);
-    if ($dps::quad['3']) %opt[%count++] = randomInt(180,269);
-    if ($dps::quad['4']) %opt[%count++] = randomInt(270,359);
+    if (%quad1 == 1 || %quad1 == true) %opt[%count++] = randomInt(0,89);
+    else if (%quad1 == "" && $dps::quad['1'] == true) %opt[%count++] = randomInt(0,89);
+
+    if (%quad2 == 1 || %quad2 == true) %opt[%count++] = randomInt(0,89);
+    else if (%quad2 == "" && $dps::quad['2'] == true) %opt[%count++] = randomInt(90,179);
+
+    if (%quad3 == 1 || %quad3 == true) %opt[%count++] = randomInt(0,89);
+    else if (%quad3 == "" && $dps::quad['3'] == true) %opt[%count++] = randomInt(180,269);
+
+    if (%quad4 == 1 || %quad4 == true) %opt[%count++] = randomInt(0,89);
+    else if (%quad4 == "" && $dps::quad['4'] == true) %opt[%count++] = randomInt(270,359);
 
     return %opt[randomInt(0,%count)];
 }
 
-function getNavPointThrow()
+function dps::getThrow()
 {
     %min = $dps::space['distance'] * (1 - $dps::space['variance']);
     %max = $dps::space['distance'] * (1 + $dps::space['variance']);
     return randomInt(%min, %max);
 }
 
-function verifyVariables()
+function dps::verifyVariables()
 {
-    if ($dps::space['distance']<0)
-        return false;
+    if ($dps::space['distance'] < 0)
+        $dps::space['distance'] = abs($dps::space['distance']);
     
     %mod = $dps::jitter/360;
     if (%mod != floor(%mod))
@@ -64,3 +72,4 @@ function verifyVariables()
 
     return true;
 }
+
