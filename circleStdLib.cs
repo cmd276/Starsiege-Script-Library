@@ -86,8 +86,8 @@ function Circle::Spawn (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffs
     for(%item=0;%item<=%itemCount;%item++)
     {
         // We're going to ass XY plane first.
-        %xPos = positionX(%itemCount, %item, %radius) + %xOffset;
-        %yPos = positionY(%itemCount, %item, %radius) + %yOffset;
+        %xPos = positionX(%itemCount, %item, %radius);
+        %yPos = positionY(%itemCount, %item, %radius);
         %zPos = getTerrainHeight(%xPos, %yPos);
         if ($circle::zCenter == true)
             %zPos = getTerrainHeight(%xOffset, %yOffset);
@@ -95,22 +95,22 @@ function Circle::Spawn (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffs
         // Now, check for a plane change, and redo the math.
         if ((%plane == "yz") || (%plane == "zy"))
         {
-            %xPos = positionX(%itemCount, %item, %radius) + %xOffset;
-            %yPos = %yOffset;
+            %xPos = positionX(%itemCount, %item, %radius);
+            %yPos = 0;
             %zPos = getTerrainHeight(%xPos, %yPos) + positionY(%itemCount, %item, %radius);
         }
         if ((%plane == "xz") || (%plane == "zx"))
         {
-            %xPos = %xOffset;
-            %yPos = positionY(%itemCount, %item, %radius) + %yOffset;
+            %xPos =0;
+            %yPos = positionY(%itemCount, %item, %radius);
             %zPos = getTerrainHeight(%xPos, %yPos) + positionX(%itemCount, %item, %radius);
         }
-        %zPos = %zPos + %zOffset;
+        %zPos = %zPos;
 
         // Are we spinning the objet?
         if ($circle::zRotate)
         {
-            %zRot = getAngle(%xOffset, %yOffset, %xPos, %yPos);
+            %zRot = getAngle(0, 0, %xPos, %yPos);
             if (%zRot == "") %zRot = 90; // its some weird bug, dont ask me.
             %zRot = %zRot + $circle::zRotMod;
         }
@@ -130,7 +130,7 @@ function Circle::Spawn (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffs
         {
             %newMarker = spawnObject(%object);
             addToSet(%group,%newMarker);
-            setPosition(%newMarker, %xPos, %yPos, %zPos, %zRot, %xRot);
+            setPosition(%newMarker, %xPos + %xOffset, %yPos + %yOffset, %zPos + %zOffset, %zRot, %xRot);
         }
     }
     
