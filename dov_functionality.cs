@@ -368,8 +368,8 @@ Pilot Harabec
    skill = 1.0;
    accuracy = 1.0;
    aggressiveness = 0.9;
-   // activeDist = 1500.0;
-   // deactiveBuff = 2000.0;
+   activateDist = 1500.0;
+   deactivateBuff = 2000.0;
    targetFreq = 5.0;
    trackFreq = 1.0;
    fireFreq = 0.2;

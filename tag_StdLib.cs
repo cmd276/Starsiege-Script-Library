@@ -26,5 +26,6 @@ function wilzuun::setRules()
 
     setGameInfo(%rules);
 }
+wilzuun::setRules();
 
 //  One shot kills! Find 'em before they find you!
