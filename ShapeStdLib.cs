@@ -49,7 +49,7 @@ $Shape::zRotMod     = 0;
 
 //  $Shape::underground : bool
 //      Force rendering of underground objects.
-$Shape::underground = false;
+$Shape::underground = true;
 
 ##--------------------------- Concrete Settings
 // Please don't edit these, unless you understand the issues you may cause.
@@ -117,7 +117,7 @@ function Shape::Polygon(%object, %sideCount, %radius, %distance, %xOffset, %yOff
                 if ($Shape::zCenter)
                     %zN = getTerrainHeight(%xOffset, %yOffset);
             }
-                        
+            
             %zN = %zN + %zOffset;
             %LocationToBe = getTerrainHeight(%xN, %yN);
 
@@ -130,7 +130,7 @@ function Shape::Polygon(%object, %sideCount, %radius, %distance, %xOffset, %yOff
                 %newMarker = spawnObject(%object);
                 addToSet(%group,%newMarker);
                 setPosition(%newMarker, %xN, %yN, %zN, 0, 0);
-            }
+            }            
         }
     }
     return %id;
@@ -209,7 +209,7 @@ function Shape::Sphere(%object, %itemCount, %radius, %xOffset, %yOffset, %zOffse
                 // Wanna make them face outward? add 90 instead!
                 %xRot = %xRot + -90;
             }
-
+            
             %xPos = %xPos + %xOffset;
             %yPos = %yPos + %yOffset;
             // get the terrain height of this exact spot...
@@ -304,9 +304,9 @@ function Shape::Circle (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffs
 
 function Shape::Star(%object, %sideCount, %radius, %distance, %xOffset, %yOffset, %zOffset, %rod, %plane)
 {
-    if (%sideCount < 2) return  echo("sideCount must be more than 1. Less than 2 is not permitted.");
-    if (%sideCount > 99) return echo("sideCount must be less than 100. Less than 2 is not permitted.");
-    
+    // enforce limitations.
+    if (%sideCount < 4) return  echo("sideCount must be more than 4.");
+    if (%sideCount > 11) return echo("sideCount must be less than 12.");
 
     %id = shape::getNextId($Shape::groupName);
     %group = newObject($Shape::GroupName @ %id, SimGroup);
@@ -327,6 +327,9 @@ function Shape::Star(%object, %sideCount, %radius, %distance, %xOffset, %yOffset
         %math = (360/%sideCount) * %side + %rod;
         %sides[%side,'x'] = positionX(360, %math, %radius);
         %sides[%side,'y'] = positionY(360, %math, %radius);
+        
+        echo("x,y : " @ %sides[%side,'x'] @ "," @ %sides[%side,'y']);
+        echo("------ " @ %side);
     }
 
     // Fill in each side of the shape with the %object.
@@ -335,10 +338,15 @@ function Shape::Star(%object, %sideCount, %radius, %distance, %xOffset, %yOffset
         // "Source" Point to "Destination" point fill in math.
         %x0 = %sides[%side,'x'];
         %y0 = %sides[%side,'y'];
-        %mod = (%side + floor($sideCount/2)) % %sideCount;
-
+        %mod = (%side + floor(%sideCount/2)) % %sideCount;
+        
+        if (floor(%sideCount/2) == (%sideCount/2))
+        {
+            %mod = (%side + (floor(%sideCount/2)-1)) % %sideCount;
+        }
         %x1 =  %sides[%mod,'x'];
-        %y1 =  %sides[%side+1,'y'];
+        %y1 =  %sides[%mod,'y'];
+        
         %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
         
         // Fill in the line with objects.
