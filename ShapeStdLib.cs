@@ -68,13 +68,8 @@ function Shape::Polygon(%object, %sideCount, %radius, %distance, %xOffset, %yOff
     addToSet("MissionGroup", %group);
 
     // Make the center point, if its wanted.
-    if ($Shape::markCenter == true && $Shape::marker != "")
-    {
-        %newMarker = spawnObject($Shape::marker);
-        addToSet(%group,%newMarker);
-        %zPos = getTerrainHeight(%xOffset, %yOffset) + %zOffset;
-        setPosition(%newMarker, %xOffset, %yOffset, %zPos, 0, 0);
-    }
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
 
     // The math for each side of the shape. This saves the point on the shape
     for(%side = 0; %side <= %sideCount; %side++)
@@ -136,6 +131,81 @@ function Shape::Polygon(%object, %sideCount, %radius, %distance, %xOffset, %yOff
     return %id;
 }
 
+function Shape::Polygon2(%object, %sideCount, %radius, %objectCount, %xOffset, %yOffset, %zOffset, %rod, %plane)
+{
+    if (%sideCount < 2) return  echo("sideCount must be more than 1. Less than 2 is not permitted.");
+    if (%sideCount > 99) return echo("sideCount must be less than 100. Less than 2 is not permitted.");
+    
+
+    %id = shape::getNextId($Shape::groupName);
+    %group = newObject($Shape::GroupName @ %id, SimGroup);
+    addToSet("MissionGroup", %group);
+
+    // Make the center point, if its wanted.
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
+
+    // The math for each side of the shape. This saves the point on the shape
+    for(%side = 0; %side <= %sideCount; %side++)
+    {
+        %math = (360/%sideCount) * %side + %rod;
+        %sides[%side,'x'] = positionX(360, %math, %radius);
+        %sides[%side,'y'] = positionY(360, %math, %radius);
+    }
+
+    // Fill in each side of the shape with the %object.
+    for(%side = 0; %side < %sideCount; %side++)
+    {
+        // "Source" Point to "Destination" point fill in math.
+        %x0 = %sides[%side,'x'];
+        %y0 = %sides[%side,'y'];
+        %x1 =  %sides[%side+1,'x'];
+        %y1 =  %sides[%side+1,'y'];
+        %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
+        %distance = %d/%objectCount;
+        
+        // Fill in the line with objects.
+        for(%a = 0; %a <= floor(%d); %a = %a + %distance)
+        {
+            %t = %a/%d;
+            %xN = ((1 - %t) * %x0 + %t * %x1) + %xOffset;
+            %yN = ((1 - %t) * %y0 + %t * %y1) + %yOffset;
+            %zN = getTerrainHeight(%xN, %yN) + %zOffset;
+            
+            // based on the plane, change placing.
+            if (%plane == 1) { // xz plane
+                %xN = %xOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 2) { // yz plane
+                %yN = %yOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else if (%plane == 3) { // xy plane, z tilted by x.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 4) { // xy plane, z tilted by y.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else { // xy plane. (Standard)
+                if ($Shape::zCenter)
+                    %zN = getTerrainHeight(%xOffset, %yOffset);
+            }
+            
+            %zN = %zN + %zOffset;
+            %LocationToBe = getTerrainHeight(%xN, %yN);
+
+            // Spawn items if its wanted.
+            if (
+                ($Shape::underground == true) ||
+               (($Shape::underground == false) && (%zN >= %LocationToBe))
+               )
+            {
+                %newMarker = spawnObject(%object);
+                addToSet(%group,%newMarker);
+                setPosition(%newMarker, %xN, %yN, %zN, 0, 0);
+            }            
+        }
+    }
+    return %id;
+}
+
 function Shape::Sphere(%object, %itemCount, %radius, %xOffset, %yOffset, %zOffset, %hSpawn)
 {
     %id = shape::getNextId(%groupName);
@@ -143,13 +213,9 @@ function Shape::Sphere(%object, %itemCount, %radius, %xOffset, %yOffset, %zOffse
     addToSet("MissionGroup", %group);
 
     // Let's go ahead and place a center marker.
-    if ($Shape::markCenter == true && $Shape::marker != "")
-    {
-        %newMarker = spawnObject($Shape::marker);
-        addToSet(%group,%newMarker);
-        %zPos = getTerrainHeight(%xPos, %yPos) + %zOffset;
-        setPosition(%newMarker, %xOffset, %yOffset, %zPos, 0, 0);
-    }
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
+
     // zBase is used so that all items in the sphere are properly aligned.
     %zBase = getTerrainHeight(%xOffset, %yOffset);
 
@@ -241,13 +307,8 @@ function Shape::Circle (%object, %itemCount, %radius, %xOffset, %yOffset, %zOffs
     %group = newObject($Shape::GroupName @ %id, SimGroup);
     addToSet("MissionGroup", %group);
 
-    if ($Shape::markCenter == true && $Shape::marker != "")
-    {
-        %newMarker = spawnObject($Shape::marker);
-        addToSet(%group,%newMarker);
-        %zPos = getTerrainHeight(%xPos, %yPos) + %zOffset;
-        setPosition(%newMarker, %xOffset, %yOffset, %zPos, 0, 0);
-    }
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
     
     // For each item within the count, find its position, and place it.
     for(%item=0;%item<=%itemCount;%item++)
@@ -313,13 +374,8 @@ function Shape::Star(%object, %sideCount, %radius, %distance, %xOffset, %yOffset
     addToSet("MissionGroup", %group);
 
     // Make the center point, if its wanted.
-    if ($Shape::markCenter == true && $Shape::marker != "")
-    {
-        %newMarker = spawnObject($Shape::marker);
-        addToSet(%group,%newMarker);
-        %zPos = getTerrainHeight(%xOffset, %yOffset) + %zOffset;
-        setPosition(%newMarker, %xOffset, %yOffset, %zPos, 0, 0);
-    }
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
 
     // The math for each side of the shape. This saves the point on the shape
     for(%side = 0; %side <= %sideCount; %side++)
@@ -348,6 +404,91 @@ function Shape::Star(%object, %sideCount, %radius, %distance, %xOffset, %yOffset
         %y1 =  %sides[%mod,'y'];
         
         %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
+        
+        // Fill in the line with objects.
+        for(%a = 0; %a <= floor(%d); %a = %a + %distance)
+        {
+            %t = %a/%d;
+            %xN = ((1 - %t) * %x0 + %t * %x1) + %xOffset;
+            %yN = ((1 - %t) * %y0 + %t * %y1) + %yOffset;
+            %zN = getTerrainHeight(%xN, %yN) + %zOffset;
+            
+            // based on the plane, change placing.
+            if (%plane == 1) { // xz plane
+                %xN = %xOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 2) { // yz plane
+                %yN = %yOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else if (%plane == 3) { // xy plane, z tilted by x.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 4) { // xy plane, z tilted by y.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else { // xy plane. (Standard)
+                if ($Shape::zCenter)
+                    %zN = getTerrainHeight(%xOffset, %yOffset);
+            }
+                        
+            %zN = %zN + %zOffset;
+            %LocationToBe = getTerrainHeight(%xN, %yN);
+
+            // Spawn items if its wanted.
+            if (
+                ($Shape::underground == true) ||
+               (($Shape::underground == false) && (%zN >= %LocationToBe))
+               )
+            {
+                %newMarker = spawnObject(%object);
+                addToSet(%group,%newMarker);
+                setPosition(%newMarker, %xN, %yN, %zN, 0, 0);
+            }
+        }
+    }
+    return %id;
+}
+
+function Shape::Star2(%object, %sideCount, %radius, %objectCount, %xOffset, %yOffset, %zOffset, %rod, %plane)
+{
+    // enforce limitations.
+    if (%sideCount < 4) return  echo("sideCount must be more than 4.");
+    if (%sideCount > 11) return echo("sideCount must be less than 12.");
+
+    %id = shape::getNextId($Shape::groupName);
+    %group = newObject($Shape::GroupName @ %id, SimGroup);
+    addToSet("MissionGroup", %group);
+
+    // Make the center point, if its wanted.
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
+
+    // The math for each side of the shape. This saves the point on the shape
+    for(%side = 0; %side <= %sideCount; %side++)
+    {
+        %math = (360/%sideCount) * %side + %rod;
+        %sides[%side,'x'] = positionX(360, %math, %radius);
+        %sides[%side,'y'] = positionY(360, %math, %radius);
+        
+        echo("x,y : " @ %sides[%side,'x'] @ "," @ %sides[%side,'y']);
+        echo("------ " @ %side);
+    }
+
+    // Fill in each side of the shape with the %object.
+    for(%side = 0; %side < %sideCount; %side++)
+    {
+        // "Source" Point to "Destination" point fill in math.
+        %x0 = %sides[%side,'x'];
+        %y0 = %sides[%side,'y'];
+        %mod = (%side + floor(%sideCount/2)) % %sideCount;
+        
+        if (floor(%sideCount/2) == (%sideCount/2))
+        {
+            %mod = (%side + (floor(%sideCount/2)-1)) % %sideCount;
+        }
+        %x1 =  %sides[%mod,'x'];
+        %y1 =  %sides[%mod,'y'];
+        
+        %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
+        %distance = %d/%objectCount;
         
         // Fill in the line with objects.
         for(%a = 0; %a <= floor(%d); %a = %a + %distance)
@@ -423,6 +564,9 @@ function shape::__IdUsed(%groupName, %id)
     return false;
 }
 
+//  shape::Cleanup(%groupName, %id) : void
+//      Find ands deletes an object grouping for Shapes. Technically, could be re-written to delete any group given to it.
+//      Will delete *ALL* groups with the same Group name and ID. Make sure to give your groups different IDs.
 function shape::Cleanup(%groupName, %id)
 {
     if (%groupName == "" || %id == "")
@@ -434,6 +578,8 @@ function shape::Cleanup(%groupName, %id)
         echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.");
 }
 
+//  shape::Delete ( %groupName ) : void unlessfailure then boolean
+//      Will delete all groups in the MissionGroup that have the exact name given.
 function shape::delete(%groupName)
 {
     %group = getObjectId("MissionGroup");
@@ -447,4 +593,95 @@ function shape::delete(%groupName)
         %item = getNextObject(%group, %item);
     }
     return false;
+}
+
+
+function shape::AddCenter(%group, %xOffset, %yOffset, %zOffset) 
+{
+    %newMarker = spawnObject($Shape::marker);
+    addToSet(%group,%newMarker);
+    %zPos = getTerrainHeight(%xOffset, %yOffset) + %zOffset;
+    setPosition(%newMarker, %xOffset, %yOffset, %zPos, 0, 0);
+}
+
+function shape::AddItem(%group, %object, %x, %y, %z, %xr, %zr)
+{
+    %newMarker = spawnObject(%object);
+    addToSet(%group,%newMarker);
+    setPosition(%newMarker, %x, %y, %z, %xr, %zr);
+}
+
+
+function Shape::PolygonPrism(%object, %sideCount, %radius, %distance, %xOffset, %yOffset, %zOffset, %rod, %plane)
+{
+    if (%sideCount < 2) return  echo("sideCount must be more than 1. Less than 2 is not permitted.");
+    if (%sideCount > 99) return echo("sideCount must be less than 100. Less than 2 is not permitted.");
+    
+
+    %id = shape::getNextId($Shape::groupName);
+    %group = newObject($Shape::GroupName @ %id, SimGroup);
+    addToSet("MissionGroup", %group);
+
+    // Make the center point, if its wanted.
+    if ($Shape::markCenter == true && $Shape::marker != "") 
+        shape::AddCenter(%group, %xOffset, %yOffset, %zOffset);
+
+    // The math for each side of the shape. This saves the point on the shape
+    for(%side = 0; %side <= %sideCount; %side++)
+    {
+        %math = (360/%sideCount) * %side + %rod;
+        %sides[%side,'x'] = positionX(360, %math, %radius);
+        %sides[%side,'y'] = positionY(360, %math, %radius);
+    }
+
+    // Fill in each side of the shape with the %object.
+    for(%side = 0; %side < %sideCount; %side++)
+    {
+        // "Source" Point to "Destination" point fill in math.
+        %x0 = %sides[%side,'x'];
+        %y0 = %sides[%side,'y'];
+        %x1 =  %sides[%side+1,'x'];
+        %y1 =  %sides[%side+1,'y'];
+        %d = sqrt( square(%x1-%x0) + square(%y1-%y0) );
+        
+        // Fill in the line with objects.
+        for(%a = 0; %a <= floor(%d); %a = %a + %distance)
+        {
+            %t = %a/%d;
+            %xN = ((1 - %t) * %x0 + %t * %x1) + %xOffset;
+            %yN = ((1 - %t) * %y0 + %t * %y1) + %yOffset;
+            %zN = getTerrainHeight(%xN, %yN) + %zOffset;
+            
+            // based on the plane, change placing.
+            if (%plane == 1) { // xz plane
+                %xN = %xOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 2) { // yz plane
+                %yN = %yOffset;
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else if (%plane == 3) { // xy plane, z tilted by x.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %x0 + %t * %x1);
+            } else if (%plane == 4) { // xy plane, z tilted by y.
+                %zN = getTerrainHeight(%xN, %yN) + ((1 - %t) * %y0 + %t * %y1);
+            } else { // xy plane. (Standard)
+                if ($Shape::zCenter)
+                    %zN = getTerrainHeight(%xOffset, %yOffset);
+            }
+            
+            %zN = %zN + %zOffset;
+            %LocationToBe = getTerrainHeight(%xN, %yN);
+
+            // Spawn items if its wanted.
+            if (
+                ($Shape::underground == true) ||
+               (($Shape::underground == false) && (%zN >= %LocationToBe))
+               )
+            {
+                %newMarker = spawnObject(%object);
+                addToSet(%group,%newMarker);
+                setPosition(%newMarker, %xN, %yN, %zN, 0, 0);
+            }            
+        }
+    }
+    return %id;
 }

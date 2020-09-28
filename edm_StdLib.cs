@@ -23,7 +23,7 @@ function endMission()
   schedule("missionEndConditionMet();", 10);
 }
 
-function player::onAdd(%player)
+function wilzuun::player::onAdd(%player)
 {
   %player.startTime = getCurrentTime();
   %player.name = getName(%player);
@@ -35,7 +35,7 @@ function player::onAdd(%player)
   %player.alive = 0;
 }
 
-function player::OnRemove(%player)
+function wilzuun::player::OnRemove(%player)
 {
   %player.name = getName(%player);
   %nowDate = getDate();
@@ -47,7 +47,7 @@ function player::OnRemove(%player)
   fileWrite("multiplayer\\serverlog.txt", append, %outputString);
 }
 
-function vehicle::onAdd(%vehicleId)
+function wilzuun::vehicle::onAdd(%vehicleId)
 {
   %player = playerManager::vehicleIdToPlayerNum(%vehicleId);
 
@@ -61,7 +61,7 @@ function vehicle::onAdd(%vehicleId)
   %player.alive = 1;
 }
 
-function vehicle::onDestroyed( %victimVeh, %destroyerVeh )
+function wilzuun::vehicle::onDestroyed( %victimVeh, %destroyerVeh )
 {
   %player = playerManager::vehicleIdToPlayerNum(%victimVeh);
   if($gameState == 2) return;

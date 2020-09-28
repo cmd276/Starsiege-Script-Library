@@ -76,21 +76,7 @@ function Mission::OnPreLoad() ()
         // echo("Loading SPHERE items");
         // exec("wilzuun\\shapes\\sphereStdLib.cs");
     // }
-    // if ($wilzuun::Cube == true) 
-    // {
-        // echo("Loading CUBE items");
-        // exec("wilzuun\\shapes\\cubeStdLib.cs");
-    // }
-    // if ($wilzuun::Circle == true) 
-    // {
-        // echo("Loading CIRCLE items");
-        // exec("wilzuun\\shapes\\circleStdLib.cs");
-    // }
-    // if ($wilzuun::Line == true) 
-    // {
-        // echo("Loading LINE items");
-        // exec("wilzuun\\shapes\\lineStdLib.cs");
-    // }
+
     // // pathway system next!
     // if ($wilzuun::Path == true)
     // {
@@ -111,11 +97,13 @@ function Mission::OnPreLoad() ()
 
     else if ($wilzuun::GameType == "tag")
     {
-        exec("TagStdLib.cs");
+        echo("Loading Tag Functionality...");
+        exec("Tag_StdLib.cs");
     }
     else if ($wilzuun::GameType == "edm")
     {
-        exec("EDMStdLib.cs");
+        echo("Loading EDM Functionality...");
+        exec("EDM_StdLib.cs");
     }
     else 
     {

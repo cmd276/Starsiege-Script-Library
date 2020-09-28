@@ -73,3 +73,9 @@ function dps::verifyVariables()
     return true;
 }
 
+function makeNewWaypoint()
+{
+    // newObject(navigationMarker, ESNavMarker);
+    %distance = randomInt(($dps::space['distance'] * (1 - $dps::space['variance'])), ($dps::space['distance'] * (1 - $dps::space['variance'])));
+    echo(%distance);
+}
