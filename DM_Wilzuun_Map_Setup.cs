@@ -1,13 +1,10 @@
 // FILENAME:	DM_Wilzuun_Map_Setup.cs
-//
-// AUTHORS:  	Chupie Doll & Youth in Asia
 //------------------------------------------------------------------------------
 
 $missionName = "DM_Wilzuun_Map_Setup";
 
 exec("multiplayerStdLib.cs");
 exec("DMstdLib.cs");
-
 
 // This map is a working example of how to setup a game for DOV.
 // It should also work for setting up any other game from my game libraries.
@@ -16,7 +13,7 @@ $wilzuun::GameType = "dov";
 
 function wilzuun::OverRide()
 {
-	$swarmClone         = true;
+	$swarmClone = true;
 }
 
 function setDefaultMissionOptions()
@@ -44,7 +41,6 @@ function onMissionEnd()
 	wilzuun::onMissionEnd();
 }
 
-// Water Tower splash functionality
 function structure::onDestroyed(%this, %attackerId)
 {
 	wilzuun::structure::OnDestroyed(%this, %attackerId);
