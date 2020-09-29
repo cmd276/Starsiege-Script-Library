@@ -200,6 +200,7 @@ function wilzuun::setRules()
     %rules = %rules @ "\n\n<jc><f2>Player Rewards<f0>\n<b0,5:table_head8.bmp><b0,5:table_head8.bmp><jl>\n\n<y17>These are currently broken. Sorry!";
 
     setGameInfo(%rules);
+    return %rules;
 }
 setRules();
 

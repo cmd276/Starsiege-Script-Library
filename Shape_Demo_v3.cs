@@ -1,6 +1,7 @@
 // FILENAME:	DM_Bloody_Brunch.cs
 //
 // AUTHORS:  	Chupie Doll & Youth in Asia
+// original file by those listed above. MOdifications to show shapes std lib by Wilzuun.
 //------------------------------------------------------------------------------
 
 exec("multiplayerStdLib.cs");
