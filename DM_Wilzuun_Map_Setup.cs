@@ -71,29 +71,34 @@ function vehicle::onAdd(%vehicleId)
 function vehicle::onDestroyed(%destroyed, %destroyer)
 {
 	wilzuun::vehicle::onDestroyed(%destroyed, %destroyer);
-	vehicle::onDestroyedLog();
+	vehicle::onDestroyedLog(%destroyed, %destroyer);
 }
 
 function vehicle::onAction()
 {
 	wilzuun::vehicle::onAction();
 }
-function vehicle::onAttacked(%targeted, %targeter)
+
+function vehicle::onAttacked(%attacked, %attacker)
 {
-	wilzuun::vehicle::onAttacked(%targeted, %targeter);
+	wilzuun::vehicle::onAttacked(%attacked, %attacker);
 }
+
 function vehicle::onMessage(%targeted, %targeter)
 {
 	wilzuun::vehicle::onMessage(%targeted, %targeter);
 }
-function vehicle::onScan(%targeted, %targeter)
+
+function vehicle::onScan(%scanned, %scanner)
 {
-	wilzuun::vehicle::onScan(%targeted, %targeter);
+	wilzuun::vehicle::onScan(%scanned, %scanner);
 }
+
 function vehicle::onTargeted(%targeted, %targeter)
 {
 	wilzuun::vehicle::onTargeted(%targeted, %targeter);
 }
+
 function vehicle::salvage()
 {
 	wilzuun::vehicle::salvage();
@@ -101,26 +106,29 @@ function vehicle::salvage()
 
 ## ------------------------------------------------------------------ structures
 
-function structure::onAdd()
+function structure::onAdd(%structure)
 {
-	wilzuun::structure::onAdd();
-}
-function structure::onAttacked()
-{
-	wilzuun::structure::onAttacked();
-}
-function structure::onDestroyed(%this, %attackerId)
-{
-	wilzuun::structure::OnDestroyed(%this, %attackerId);
+	wilzuun::structure::onAdd(%structure);
 }
 
-function structure::onDisabled()
+function structure::onAttacked(%attacked, %attacker)
 {
-	wilzuun::structure::onDisabled();
+	wilzuun::structure::onAttacked(%attacked, %attacker);
 }
-function structure::onScan()
+
+function structure::onDestroyed(%destroyed, %destroyer)
 {
-	wilzuun::structure::onScan();
+	wilzuun::structure::OnDestroyed(%destroyed, %destroyer);
+}
+
+function structure::onDisabled(%structure)
+{
+	wilzuun::structure::onDisabled(%structure);
+}
+
+function structure::onScan(%scanned, %scanner)
+{
+	wilzuun::structure::onScan(%scanned, %scanner);
 }
 
 ## --------------------------------------------------------------------- players
@@ -128,11 +136,11 @@ function structure::onScan()
 function player::onAdd(%player) 
 {
 	wilzuun::player::onAdd(%player);
-	player::onAddLog();
+	player::onAddLog(%player);
 }
 
 function player::onRemove(%player) 
 {
 	wilzuun::player::onRemove(%player);
-	player::onRemoveLog();
+	player::onRemoveLog(%player);
 }
