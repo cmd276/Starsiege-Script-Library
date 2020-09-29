@@ -43,7 +43,7 @@ exec("TrigonometryStdLib.cs");
 // Please don't edit below this line.
 // onMissionPreload executes before everything in your map file, and is a vastly under used function.
 // I utilize it for all of my projects.
-function Mission::OnPreLoad() ()
+function wilzuun::onMissionPreload() ()
 {
     // First, due to complete map destruction.
     // if ($wilzuun::City == true)

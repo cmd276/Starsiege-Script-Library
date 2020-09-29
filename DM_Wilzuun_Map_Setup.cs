@@ -27,7 +27,7 @@ function setDefaultMissionOptions()
 
 function onMissionPreload() 
 {
-	MIssion::onPreload();
+	wilzuun::onPreload();
 }
 
 function onMissionLoad()
@@ -99,9 +99,14 @@ function vehicle::onTargeted(%targeted, %targeter)
 	wilzuun::vehicle::onTargeted(%targeted, %targeter);
 }
 
-function vehicle::salvage()
+function vehicle::salvage(%vehicle)
 {
-	wilzuun::vehicle::salvage();
+	wilzuun::vehicle::salvage(%vehicle);
+}
+
+function vehicle::onArrived(%this, %where)
+{
+	wilzuun::vehicle::onArrived(%this, %where);
 }
 
 ## ------------------------------------------------------------------ structures
