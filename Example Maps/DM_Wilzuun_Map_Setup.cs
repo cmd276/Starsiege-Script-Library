@@ -8,7 +8,6 @@
 $missionName = "DM_Wilzuun_Map_Setup";
 
 exec("multiplayerStdLib.cs");
-exec("DMstdLib.cs");
 
 // This map is a working example of how to setup a game for DOV.
 // It should also work for setting up any other game from my game libraries.
@@ -23,26 +22,6 @@ function wilzuun::OverRide()
 function setDefaultMissionOptions()
 {
 	wilzuun::setDefaultMissionOptions();
-}
-
-function onMissionPreload() 
-{
-	wilzuun::onPreload();
-}
-
-function onMissionLoad()
-{
-	wilzuun::onMissionLoad();
-}
-
-function onMissionStart()
-{
-	wilzuun::onMissionStart();
-}
-
-function onMissionEnd() 
-{
-	wilzuun::onMissionEnd();
 }
 
 function setRules ()
@@ -110,7 +89,6 @@ function vehicle::onArrived(%this, %where)
 }
 
 ## ------------------------------------------------------------------ structures
-
 function structure::onAdd(%structure)
 {
 	wilzuun::structure::onAdd(%structure);
@@ -137,7 +115,6 @@ function structure::onScan(%scanned, %scanner)
 }
 
 ## --------------------------------------------------------------------- players
-
 function player::onAdd(%player) 
 {
 	wilzuun::player::onAdd(%player);
@@ -148,4 +125,25 @@ function player::onRemove(%player)
 {
 	wilzuun::player::onRemove(%player);
 	player::onRemoveLog(%player);
+}
+
+## --------------------------------------------------------------------- mission
+function onMissionPreload() 
+{
+	wilzuun::onMissionPreload();
+}
+
+function onMissionLoad()
+{
+	wilzuun::onMissionLoad();
+}
+
+function onMissionStart()
+{
+	wilzuun::onMissionStart();
+}
+
+function onMissionEnd() 
+{
+	wilzuun::onMissionEnd();
 }

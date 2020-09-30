@@ -25,6 +25,7 @@ function wilzuun::setRules()
     %rules = %rules @ "One shot kills! Find 'em before they find you!\n";
 
     setGameInfo(%rules);
+    return %rules;
 }
 wilzuun::setRules();
 
