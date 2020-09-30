@@ -1,4 +1,7 @@
-// FILENAME:	DM_Wilzuun_Map_Setup.cs
+//  FILENAME:	DM_Wilzuun_Map_Setup.cs
+//	NOTES   :	This file was modeled after how a CTF_City_On_The_Edge map would
+//			 look if the map was setup for the Wilzuun Library to be applied to
+//			 it for game play types.
 //------------------------------------------------------------------------------
 
 ## NOTES:
@@ -17,6 +20,7 @@ $wilzuun::GameType = "dov";
 function wilzuun::OverRide()
 {
 	$swarmClone = true;
+	$wilzuun::Boost = false;
 }
 
 function setDefaultMissionOptions()
@@ -88,31 +92,31 @@ function vehicle::onArrived(%this, %where)
 	wilzuun::vehicle::onArrived(%this, %where);
 }
 
-## ------------------------------------------------------------------ structures
-function structure::onAdd(%structure)
-{
-	wilzuun::structure::onAdd(%structure);
-}
+// ## ------------------------------------------------------------------ structures
+// function structure::onAdd(%structure)
+// {
+// 	wilzuun::structure::onAdd(%structure);
+// }
 
-function structure::onAttacked(%attacked, %attacker)
-{
-	wilzuun::structure::onAttacked(%attacked, %attacker);
-}
+// function structure::onAttacked(%attacked, %attacker)
+// {
+// 	wilzuun::structure::onAttacked(%attacked, %attacker);
+// }
 
-function structure::onDestroyed(%destroyed, %destroyer)
-{
-	wilzuun::structure::OnDestroyed(%destroyed, %destroyer);
-}
+// function structure::onDestroyed(%destroyed, %destroyer)
+// {
+// 	wilzuun::structure::OnDestroyed(%destroyed, %destroyer);
+// }
 
-function structure::onDisabled(%structure)
-{
-	wilzuun::structure::onDisabled(%structure);
-}
+// function structure::onDisabled(%structure)
+// {
+// 	wilzuun::structure::onDisabled(%structure);
+// }
 
-function structure::onScan(%scanned, %scanner)
-{
-	wilzuun::structure::onScan(%scanned, %scanner);
-}
+// function structure::onScan(%scanned, %scanner)
+// {
+// 	wilzuun::structure::onScan(%scanned, %scanner);
+// }
 
 ## --------------------------------------------------------------------- players
 function player::onAdd(%player) 
@@ -128,19 +132,25 @@ function player::onRemove(%player)
 }
 
 ## --------------------------------------------------------------------- mission
-function onMissionPreload() 
-{
-	wilzuun::onMissionPreload();
-}
+// This function is required for the entire Wilzuun Library to work. 
+// If you wish to use a PreLoad function, please name it `MissionPreLoad` and
+// the Wilzuun Library will call it on PreLoad.
+// function onMissionPreload() 
+// {
+// 	wilzuun::onMissionPreload();
+// }
 
 function onMissionLoad()
 {
 	wilzuun::onMissionLoad();
+	cdAudioCycle("Purge", "Terror", "Watching");
 }
 
 function onMissionStart()
 {
 	wilzuun::onMissionStart();
+	initGlobalVars();
+	marsSounds();
 }
 
 function onMissionEnd() 

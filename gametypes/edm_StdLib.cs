@@ -2,64 +2,12 @@ $timeToStart = 40;
 $gameState = 0;
 $allowAdds = 1;
 
-function onMissionStart()
-{
-  schedule("startGame();", $timeToStart);
-  say("everyone", 0, "Round will start in " @ $timeToStart @ " seconds");
-  setHUDTimerAll($timeToStart, -1, "Time to start", 1);
-}
+//Modification by dun_Starscaper
+//Fixed HUD timer so that late spawners get the true time to elimination
+//In the original it was always $timeToStart, even if the waiting period was nearly over
+$bootTime = 0;
 
-function startGame()
-{
-  $allowAdds = 0;
-  $gameState = 1;
-  say("everyone", 0, "The round has now started, no more spawns until the next round.");
-  countTeams();
-}
-
-function endMission()
-{
-  $gameState = 2;
-  schedule("missionEndConditionMet();", 10);
-}
-
-function wilzuun::player::onAdd(%player)
-{
-  %player.startTime = getCurrentTime();
-  %player.name = getName(%player);
-  %nowDate = getDate();
-  %nowTime = getTime();
-  %player.IP = getConnection(%player);
-  %outputString =  %nowDate @ ", " @ %nowTime @ " -- " @ %player.name @ " joined the game (" @ %player.IP @ ")";
-  fileWrite("multiplayer\\serverlog.txt", append, %outputString);
-  %player.alive = 0;
-}
-
-function wilzuun::player::OnRemove(%player)
-{
-  %player.name = getName(%player);
-  %nowDate = getDate();
-  %nowTime = getTime();
-  %timeEnd = getCurrentTime();
-  %timeIn = timeDifference( %timeEnd, %player.startTime);
-  %outputString =  %nowDate @ ", " @ %nowTime @ " -- " @ %player.name @ " left the game (" @ %player.IP @ ") -- " @ %timeIn;
-
-  fileWrite("multiplayer\\serverlog.txt", append, %outputString);
-}
-
-function wilzuun::vehicle::onAdd(%vehicleId)
-{
-  %player = playerManager::vehicleIdToPlayerNum(%vehicleId);
-
-  if($allowAdds == 0)
-  {
-    say(%player, 0, "Sorry, round in progress.  Please wait until next round to join in");
-    schedule("damageObject(" @ %vehicleId @ ", 50000);", 2);
-  }
-  else setHudTimer($timeToStart, -1, "Time to start", 1, %player);
-
-  %player.alive = 1;
-}
+// Edited for inclusion into Scripting library by Wilzuun.
 
 function wilzuun::vehicle::onDestroyed( %victimVeh, %destroyerVeh )
 {
@@ -76,15 +24,21 @@ function wilzuun::vehicle::onDestroyed( %victimVeh, %destroyerVeh )
   countTeams();
 }
 
-function setHudTimerAll(%time, %increment, %string, %channel)
+
+function wilzuun::vehicle::onAdd(%vehicleId)
 {
-  %count = playerManager::getPlayerCount();
-  for(%i = 0; %i < %count; %i++)
+  %player = playerManager::vehicleIdToPlayerNum(%vehicleId);
+
+  if($allowAdds == 0)
   {
-    %player = playerManager::getPlayerNum(%i);
-    setHudTimer(%time, %increment, %string, %channel, %player);
+    say(%player, 0, "Sorry, round in progress.  Please wait until next round to join in");
+    schedule("damageObject(" @ %vehicleId @ ", 50000);", 2);
   }
+  else setHudTimer($timeToStart - (getCurrentTime() - $bootTime), -1, "Time to start", 1, %player);
+
+  %player.alive = 1;
 }
+
 
 function countTeams()
 {
@@ -173,3 +127,71 @@ function countTeams()
 // 2 = Blue Team
 // 4 = Red Team
 // 8 = Purple Team
+
+
+
+function wilzuun::onMissionStart()
+{
+  schedule("startGame();", $timeToStart);
+  say("everyone", 0, "Round will start in " @ $timeToStart @ " seconds");
+  setHUDTimerAll($timeToStart, -1, "Time to start", 1);
+  $bootTime = getCurrentTime();
+}
+
+
+function startGame()
+{
+  $allowAdds = 0;
+  $gameState = 1;
+  say("everyone", 0, "The round has now started, no more spawns until the next round.");
+  countTeams();
+}
+
+
+function endMission()
+{
+  $gameState = 2;
+  schedule("missionEndConditionMet();", 10);
+}
+
+
+//=================
+
+
+function wilzuun::player::onAdd(%player)
+{
+  %player.startTime = getCurrentTime();
+  %player.name = getName(%player);
+  %nowDate = getDate();
+  %nowTime = getTime();
+  %player.IP = getConnection(%player);
+  %outputString =  %nowDate @ ", " @ %nowTime @ " -- " @ %player.name @ " joined the game (" @ %player.IP @ ")";
+  fileWrite("multiplayer\\serverlog.txt", append, %outputString);
+  %player.alive = 0;
+}
+
+
+function wilzuun::player::OnRemove(%player)
+{
+  %player.name = getName(%player);
+  %nowDate = getDate();
+  %nowTime = getTime();
+  %timeEnd = getCurrentTime();
+  %timeIn = timeDifference( %timeEnd, %player.startTime);
+  %outputString =  %nowDate @ ", " @ %nowTime @ " -- " @ %player.name @ " left the game (" @ %player.IP @ ") -- " @ %timeIn;
+
+  fileWrite("multiplayer\\serverlog.txt", append, %outputString);
+}
+
+
+//===================
+
+function setHudTimerAll(%time, %increment, %string, %channel)
+{
+  %count = playerManager::getPlayerCount();
+  for(%i = 0; %i < %count; %i++)
+  {
+    %player = playerManager::getPlayerNum(%i);
+    setHudTimer(%time, %increment, %string, %channel, %player);
+  }
+}

@@ -350,7 +350,7 @@ function spawnSwarm(%player)
     }
 
     %newSpawn.owner = %player;
-    setPilotId(%newSpawn, 29);
+    setPilotId(%newSpawn, 32);
     randomTransport(%newSpawn, %x1, %y1, %x2, %y2);
     setTeam(%newSpawn, *IDSTR_TEAM_YELLOW);
     addToSet("MissionGroup\\group" @ %player, %newSpawn);
@@ -360,23 +360,6 @@ function spawnSwarm(%player)
     %player.aiCount++;
     // messageBox(0,"Swarm Drop");
 }
-
-Pilot Harabec
-{
-   id = 29;
-   
-   name = "Swarmie Boi";
-   skill = 1.0;
-   accuracy = 1.0;
-   aggressiveness = 0.9;
-   activateDist = 1500.0;
-   deactivateBuff = 2000.0;
-   targetFreq = 5.0;
-   trackFreq = 1.0;
-   fireFreq = 0.2;
-   LOSFreq = 0.1;
-   orderFreq = 0.2;    
-};
 
 function swarmVolume(%player)
 {
