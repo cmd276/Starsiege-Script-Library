@@ -1,4 +1,3 @@
-
 ##--------------------------- Header
 // FILE:        WilzuunStdLib.cs
 // AUTHORS:     ^TFW^ Wilzuun
@@ -10,7 +9,6 @@
 // Added shape functions. These are more of a MissionGroup management service almost.
 
 ##--------------------------- Settings
-
 
 ##--------------------------- Main Classification
 //
