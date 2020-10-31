@@ -142,6 +142,11 @@ function onMissionPreload() ()
         echo("Loading Harvest Functionality...");
         exec("Harvest_StdLib.cs");
     }
+    else if ($wilzuun::GameType == "CvH")
+    {
+        echo("Loading Harvest Functionality...");
+        exec("Harvest_StdLib.cs");
+    }
     else 
     {
         // Do nothing... have a blank map... Maybe its traditional DM, or CTF with randomness to it... who knows.

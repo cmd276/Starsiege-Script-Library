@@ -1,3 +1,11 @@
+##--------------------------- Header
+// FILE:        edm_StdLib.cs
+// AUTHORS:     ^TFW^ Wilzuun, dun_Starscaper, unnamed Original Author.
+// LAST MOD:    
+// VERSION:     1.0r
+// NOTES:       Elimination Death Match.
+
+
 $timeToStart = 40;
 $gameState = 0;
 $allowAdds = 1;

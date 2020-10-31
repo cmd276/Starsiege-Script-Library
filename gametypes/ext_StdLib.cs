@@ -3,7 +3,7 @@
 // AUTHORS:     ^TFW^ Wilzuun
 // LAST MOD:    Dec 25th, 2019
 // VERSION:     1.0r
-
+// NOTES:       Warframe Extermination game-type.
 ##--------------------------- Version History
 //  1.0r
 //      - Initial startup.

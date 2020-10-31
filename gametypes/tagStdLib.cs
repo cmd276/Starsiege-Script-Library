@@ -3,6 +3,7 @@
 // AUTHORS:     ^TFW^ Wilzuun
 // LAST MOD:    11 Aug, 2020
 // VERSION:     1.0r
+// NOTES:       One shot kills. Lasers only.
 ##--------------------------- Version History
 //  1.0r
 //      - Initial startup.

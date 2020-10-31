@@ -3,6 +3,7 @@
 // AUTHORS:     ^TFW^ Wilzuun
 // LAST MOD:    29 Sep, 2020
 // VERSION:     1.0r
+// NONTES:      Targeting Game. Target some one and die.
 ##--------------------------- Version History
 //  1.0r
 //      - Initial startup.

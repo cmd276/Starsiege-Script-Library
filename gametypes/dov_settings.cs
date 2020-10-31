@@ -1,8 +1,8 @@
 ##--------------------------- Header
-//  Filename: dov\Settings.cs
+//  Filename: dov_Settings.cs
 //  AUTHOR: ^TFW^ Wilzuun
 //  CO-AUTHOR: Drake
-//
+//  NOTES: Dark OVerrun
 ##--------------------------- Swarm Variables
 //  Swarm Variables. This directly affects the number of AI on the map.
 

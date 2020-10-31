@@ -1,4 +1,3 @@
-
 Pilot pilotWeakAggressive
 {
    id = 16;

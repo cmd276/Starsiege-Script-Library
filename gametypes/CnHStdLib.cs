@@ -1,3 +1,5 @@
+// Capture And Hold
+
 // CnHStdLib.cs
 // v1.003
 // Last updated 6/3/00
