@@ -10,6 +10,7 @@ $allow["Tanks"]     = true;
 $allow["Hercs"]     = true;
 
 // These allow (or disallow) These specific factions.
+// Special Vehicles includes: Prometheus, Bek's Apoc, Caanon's Basi, Predator, and Bek's Super Predator.
 $allow["Terran"]    = true;
 $allow["Knight"]    = true;
 $allow["Pirate"]    = true;
@@ -64,4 +65,4 @@ positionX(%totalNumberOfItems, %numberOfCurrentItem, %radiusOfShape);
 positionY(%totalNumberOfItems, %numberOfCurrentItem, %radiusOfShape);
 
 // This last function is a 'On The Fly' AI loader. Allowing you to edit the allowed vehicle to spawn
-wilzuun::loadVehicle(%name, %hercs, %tanks, %ter, %kni, %pir, %reb, %cyb, %met, %spe, %dis, %art);
+wilzuun::loadVehicle(%name, %hercs, %tanks, %terran, %knight, %pirate, %rebel, %cybrid, %metagan, %special, %disruptors, %artillery);
