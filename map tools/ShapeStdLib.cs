@@ -595,7 +595,7 @@ function shape::delete(%groupName)
     return false;
 }
 
-
+//
 function shape::AddCenter(%group, %xOffset, %yOffset, %zOffset) 
 {
     %newMarker = spawnObject($Shape::marker);
@@ -611,7 +611,7 @@ function shape::AddItem(%group, %object, %x, %y, %z, %xr, %zr)
     setPosition(%newMarker, %x, %y, %z, %xr, %zr);
 }
 
-
+//
 function Shape::PolygonPrism(%object, %sideCount, %radius, %distance, %xOffset, %yOffset, %zOffset, %rod, %plane)
 {
     if (%sideCount < 2) return  echo("sideCount must be more than 1. Less than 2 is not permitted.");
