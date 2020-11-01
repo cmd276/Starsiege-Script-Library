@@ -23,6 +23,9 @@ $allow["Special"]   = false;
 $allow["Disruptors"]= false;
 $allow["Artillery"] = false;
 
+// A simple absolute function. Returns the INT or FLOAT you give it and returns the absolute value.
+abs(%thisNumber);
+
 // This will return the lowest number given to it.
 min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9);
 
