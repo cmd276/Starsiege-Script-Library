@@ -160,18 +160,18 @@ Pilot pilotEliteCautious
 
 Pilot Reaper
 {
-	id = 28;
+    id = 28;
    
     name = "Reaper";
-	skill = 0.8;
-	accuracy = 0.8;
-	aggressiveness = 0.8;
-	activateDist = 3000.0;
-	deactivateBuff = 30.0;
-	targetFreq = 10.0;
-	trackFreq = 0.3;
-	fireFreq = 0.3;
-	LOSFreq = 0.2;
+    skill = 0.8;
+    accuracy = 0.8;
+    aggressiveness = 0.8;
+    activateDist = 3000.0;
+    deactivateBuff = 30.0;
+    targetFreq = 10.0;
+    trackFreq = 0.3;
+    fireFreq = 0.3;
+    LOSFreq = 0.2;
 };
 
 Pilot Protector

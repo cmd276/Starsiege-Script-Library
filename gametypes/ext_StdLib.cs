@@ -100,35 +100,35 @@ function wilzuun::initScoreBoard()
    deleteVariables("$ScoreBoard::PlayerColumn*");
    deleteVariables("$ScoreBoard::TeamColumn*");
 
-   if($server::TeamPlay == "True")	
+   if($server::TeamPlay == "True")    
    {
-	   // Player ScoreBoard column headings
-	   $ScoreBoard::PlayerColumnHeader1 = *IDMULT_SCORE_TEAM;
-	   $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_SQUAD;
-	   $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_SCORE;
-	   $ScoreBoard::PlayerColumnHeader4 = *IDMULT_SCORE_KILLS;
-	   $ScoreBoard::PlayerColumnHeader5 = *IDMULT_SCORE_DEATHS;
+       // Player ScoreBoard column headings
+       $ScoreBoard::PlayerColumnHeader1 = *IDMULT_SCORE_TEAM;
+       $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_SQUAD;
+       $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_SCORE;
+       $ScoreBoard::PlayerColumnHeader4 = *IDMULT_SCORE_KILLS;
+       $ScoreBoard::PlayerColumnHeader5 = *IDMULT_SCORE_DEATHS;
 
-	   // Player ScoreBoard column functions
-	   $ScoreBoard::PlayerColumnFunction1 = "getTeam";
-	   $ScoreBoard::PlayerColumnFunction2 = "getSquad";
-	   $ScoreBoard::PlayerColumnFunction3 = "getPlayerScore";
-	   $ScoreBoard::PlayerColumnFunction4 = "getKills";
-	   $ScoreBoard::PlayerColumnFunction5 = "getDeaths";
+       // Player ScoreBoard column functions
+       $ScoreBoard::PlayerColumnFunction1 = "getTeam";
+       $ScoreBoard::PlayerColumnFunction2 = "getSquad";
+       $ScoreBoard::PlayerColumnFunction3 = "getPlayerScore";
+       $ScoreBoard::PlayerColumnFunction4 = "getKills";
+       $ScoreBoard::PlayerColumnFunction5 = "getDeaths";
    }
    else
    {
        // Player ScoreBoard column headings
-	   $ScoreBoard::PlayerColumnHeader1 = *IDMULT_SCORE_SQUAD;
-	   $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_SCORE;
-	   $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_KILLS;
-	   $ScoreBoard::PlayerColumnHeader4 = *IDMULT_SCORE_DEATHS;
+       $ScoreBoard::PlayerColumnHeader1 = *IDMULT_SCORE_SQUAD;
+       $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_SCORE;
+       $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_KILLS;
+       $ScoreBoard::PlayerColumnHeader4 = *IDMULT_SCORE_DEATHS;
 
-	   // Player ScoreBoard column functions
-	   $ScoreBoard::PlayerColumnFunction1 = "getSquad";
-	   $ScoreBoard::PlayerColumnFunction2 = "getPlayerScore";
-	   $ScoreBoard::PlayerColumnFunction3 = "getKills";
-	   $ScoreBoard::PlayerColumnFunction4 = "getDeaths";
+       // Player ScoreBoard column functions
+       $ScoreBoard::PlayerColumnFunction1 = "getSquad";
+       $ScoreBoard::PlayerColumnFunction2 = "getPlayerScore";
+       $ScoreBoard::PlayerColumnFunction3 = "getKills";
+       $ScoreBoard::PlayerColumnFunction4 = "getDeaths";
    }
 
    // Team ScoreBoard column headings

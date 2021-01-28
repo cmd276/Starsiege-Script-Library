@@ -28,19 +28,19 @@ function wilzuun::initScoreBoard()
 {
    deleteVariables("$ScoreBoard::PlayerColumn*");
    deleteVariables("$ScoreBoard::TeamColumn*");
-	   // Player ScoreBoard column headings
-	   $ScoreBoard::PlayerColumnHeader1 = "AI Count";
-	   $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_KILLS;
-	   $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_DEATHS;
-	   $ScoreBoard::PlayerColumnHeader4 = "Kills since Spawn";
-	   $ScoreBoard::PlayerColumnHeader5 = "Max Kills";
+       // Player ScoreBoard column headings
+       $ScoreBoard::PlayerColumnHeader1 = "AI Count";
+       $ScoreBoard::PlayerColumnHeader2 = *IDMULT_SCORE_KILLS;
+       $ScoreBoard::PlayerColumnHeader3 = *IDMULT_SCORE_DEATHS;
+       $ScoreBoard::PlayerColumnHeader4 = "Kills since Spawn";
+       $ScoreBoard::PlayerColumnHeader5 = "Max Kills";
 
-	   // Player ScoreBoard column functions
-	   $ScoreBoard::PlayerColumnFunction1 = "getAiCount";
-	   $ScoreBoard::PlayerColumnFunction2 = "getKills";
-	   $ScoreBoard::PlayerColumnFunction3 = "getDeaths";
-	   $ScoreBoard::PlayerColumnFunction4 = "getSpawn";
-	   $ScoreBoard::PlayerColumnFunction5 = "getMax";
+       // Player ScoreBoard column functions
+       $ScoreBoard::PlayerColumnFunction1 = "getAiCount";
+       $ScoreBoard::PlayerColumnFunction2 = "getKills";
+       $ScoreBoard::PlayerColumnFunction3 = "getDeaths";
+       $ScoreBoard::PlayerColumnFunction4 = "getSpawn";
+       $ScoreBoard::PlayerColumnFunction5 = "getMax";
        
    // tell server to process all the scoreboard definitions defined above
 
@@ -347,7 +347,7 @@ function spawnSwarm(%player)
     }
     else
     {
-        %newSpawn = loadObject("Swarm Member", getSwarmMember());
+        %newSpawn = loadObject("Swarm Member", wilzuun::loadVehicle());
     }
 
     %newSpawn.owner = %player;
@@ -388,155 +388,155 @@ function waitTime (%player)
     else return 0.5;
 }
 
-function getSwarmMember()
-{
-    %swarmCount = 0;
-    %swarmMembers[-1] = true;
+// function getSwarmMember()
+// {
+    // %swarmCount = 0;
+    // %swarmMembers[-1] = true;
 
-    if ($allow["Hercs"] == true)
-    {
-        if ($allow["Terran"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.1.swarm"; // Terran Apocalypse
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.2.swarm"; // Terran Minotaur
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.3.swarm"; // Terran Gorgon
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.4.swarm"; // Terran Talon
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.5.swarm"; // Terran Basilisk
-        }
-        if ($allow["Knight"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.10.swarm"; // Knight's Apocalypse
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.11.swarm"; // Knight's Minotaur
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.12.swarm"; // Knight's Gorgon
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.13.swarm"; // Knight's Talon
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.14.swarm"; // Knight's Basilisk
-        }
-        if ($allow["Cybrid"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.20.swarm"; // Cybrid Seeker
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.21.swarm"; // Cybrid Goad
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.22.swarm"; // Cybrid Shepherd
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.23.swarm"; // Cybrid Adjudicator
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.24.swarm"; // Cybrid Executioner
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.27.swarm"; // Platinum Adjudicator (SP version, not selectable)
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.28.swarm"; // Platinum Executioner (SP version, not selectable)
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.55.swarm"; // Platinum Adjudicator 2
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.56.swarm"; // Platinum Executioner 2
-        }
-        if ($allow["Metagen"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.35.swarm"; // Metagen Seeker
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.36.swarm"; // Metagen Goad
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.37.swarm"; // Metagen Shepherd
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.38.swarm"; // Metagen Adjudicator
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.39.swarm"; // Metagen Executioner
-        }
-        if ($allow["Rebel"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.30.swarm"; // Rebel Emancipator
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.33.swarm"; // Rebel Olympian
-        }
-        if ($allow["Special"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.29.swarm"; // Prometheus
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.40.swarm"; // Harabec's Apocalypse
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.42.swarm"; // Caanan's Basilisk
-        }
-        if ($allow["Pirate"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.50.swarm"; // Pirate's Apocalypse
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.52.swarm"; // Pirate's Emancipator
-        }
-    }
+    // if ($allow["Hercs"] == true)
+    // {
+        // if ($allow["Terran"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.1.swarm"; // Terran Apocalypse
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.2.swarm"; // Terran Minotaur
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.3.swarm"; // Terran Gorgon
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.4.swarm"; // Terran Talon
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.5.swarm"; // Terran Basilisk
+        // }
+        // if ($allow["Knight"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.10.swarm"; // Knight's Apocalypse
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.11.swarm"; // Knight's Minotaur
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.12.swarm"; // Knight's Gorgon
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.13.swarm"; // Knight's Talon
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.14.swarm"; // Knight's Basilisk
+        // }
+        // if ($allow["Cybrid"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.20.swarm"; // Cybrid Seeker
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.21.swarm"; // Cybrid Goad
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.22.swarm"; // Cybrid Shepherd
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.23.swarm"; // Cybrid Adjudicator
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.24.swarm"; // Cybrid Executioner
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.27.swarm"; // Platinum Adjudicator (SP version, not selectable)
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.28.swarm"; // Platinum Executioner (SP version, not selectable)
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.55.swarm"; // Platinum Adjudicator 2
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.56.swarm"; // Platinum Executioner 2
+        // }
+        // if ($allow["Metagen"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.35.swarm"; // Metagen Seeker
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.36.swarm"; // Metagen Goad
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.37.swarm"; // Metagen Shepherd
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.38.swarm"; // Metagen Adjudicator
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.39.swarm"; // Metagen Executioner
+        // }
+        // if ($allow["Rebel"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.30.swarm"; // Rebel Emancipator
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.33.swarm"; // Rebel Olympian
+        // }
+        // if ($allow["Special"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.29.swarm"; // Prometheus
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.40.swarm"; // Harabec's Apocalypse
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.42.swarm"; // Caanan's Basilisk
+        // }
+        // if ($allow["Pirate"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.50.swarm"; // Pirate's Apocalypse
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.52.swarm"; // Pirate's Emancipator
+        // }
+    // }
 
-    if ($allow["Tanks"] == true)
-    {
-        if ($allow["Terran"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.6.swarm"; // Paladin Tank
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.7.swarm"; // Myrmidon Tank
-            if ($allow["Disruptors"] == true)
-            {
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.8.swarm"; // Disruptor Tank
-            }
-            if ($allow["Artillery"] == true)
-            {
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.133.swarm"; // Nike Artillery
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.134.swarm"; // Supressor Tank
-            }
-        }
-        if ($allow["Knight"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.15.swarm"; // Knight's Paladin
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.16.swarm"; // Knight's Myrmidon
-            if ($allow["Disruptors"] == true)
-            {
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.17.swarm"; // Knight's Disruptor
-            }
-        }
-        if ($allow["Cybrid"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.25.swarm"; // Bolo Tank
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.26.swarm"; // Recluse Tank
-            if ($allow["Artillery"] == true)
-            {
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.90.swarm"; // Cybrid Artillery
-            }
-        }
-        if ($allow["Rebel"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.31.swarm"; // Avenger Tank
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.32.swarm"; // Dreadnought Tank
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.72.swarm";  // Rebel Thumper
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.138.swarm"; // Rebel bike
-            if ($allow["Artillery"] == true)
-            {
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.137.swarm"; // Rebel Artillery
-                %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.150.swarm"; // SUAV Bus
-            }
-        }
-        if ($allow["Special"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.41.swarm"; // Harabec's Predator
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.45.swarm"; // Harabec's Super Predator
-        }
-        if ($allow["Pirate"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.51.swarm"; // Pirate's Dreadlock
-        }
-    }
+    // if ($allow["Tanks"] == true)
+    // {
+        // if ($allow["Terran"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.6.swarm"; // Paladin Tank
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.7.swarm"; // Myrmidon Tank
+            // if ($allow["Disruptors"] == true)
+            // {
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.8.swarm"; // Disruptor Tank
+            // }
+            // if ($allow["Artillery"] == true)
+            // {
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.133.swarm"; // Nike Artillery
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.134.swarm"; // Supressor Tank
+            // }
+        // }
+        // if ($allow["Knight"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.15.swarm"; // Knight's Paladin
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.16.swarm"; // Knight's Myrmidon
+            // if ($allow["Disruptors"] == true)
+            // {
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.17.swarm"; // Knight's Disruptor
+            // }
+        // }
+        // if ($allow["Cybrid"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.25.swarm"; // Bolo Tank
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.26.swarm"; // Recluse Tank
+            // if ($allow["Artillery"] == true)
+            // {
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.90.swarm"; // Cybrid Artillery
+            // }
+        // }
+        // if ($allow["Rebel"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.31.swarm"; // Avenger Tank
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.32.swarm"; // Dreadnought Tank
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.72.swarm";  // Rebel Thumper
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.138.swarm"; // Rebel bike
+            // if ($allow["Artillery"] == true)
+            // {
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.137.swarm"; // Rebel Artillery
+                // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.150.swarm"; // SUAV Bus
+            // }
+        // }
+        // if ($allow["Special"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.41.swarm"; // Harabec's Predator
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.45.swarm"; // Harabec's Super Predator
+        // }
+        // if ($allow["Pirate"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.51.swarm"; // Pirate's Dreadlock
+        // }
+    // }
 
-    if ($allow["Drone"] == "Not Happening" && true == false)
-    {
-        if ($allow["Terran"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.60.swarm";  // Terran Empty Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.61.swarm";  // Terran Ammo Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.62.swarm";  // Terran Big Ammo Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.63.swarm";  // Terran Big Personnel Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.64.swarm";  // Terran Fuel Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.65.swarm";  // Terran Minotaur Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.71.swarm";  // Terran Utility Truck
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.73.swarm";  // Terran Starefield
-        }
-            if ($allow["Rebel"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.66.swarm";  // Rebel Empty Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.67.swarm";  // Rebel Ammo Cargo
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.68.swarm";  // Rebel Big Cargo Transport
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.69.swarm";  // Rebel Bix Box Cargo Transport
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.70.swarm";  // Rebel Box Cargo Transport
-        }
-        if ($allow["Cybrid"] == true)
-        {
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.94.swarm";  // Cybrid Omnicrawler
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.95.swarm";  // Cybrid Protector
-            %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.96.swarm";  // Cybrid Jamma
-        }
-    }
+    // if ($allow["Drone"] == "Not Happening" && true == false)
+    // {
+        // if ($allow["Terran"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.60.swarm";  // Terran Empty Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.61.swarm";  // Terran Ammo Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.62.swarm";  // Terran Big Ammo Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.63.swarm";  // Terran Big Personnel Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.64.swarm";  // Terran Fuel Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.65.swarm";  // Terran Minotaur Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.71.swarm";  // Terran Utility Truck
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.73.swarm";  // Terran Starefield
+        // }
+            // if ($allow["Rebel"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.66.swarm";  // Rebel Empty Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.67.swarm";  // Rebel Ammo Cargo
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.68.swarm";  // Rebel Big Cargo Transport
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.69.swarm";  // Rebel Bix Box Cargo Transport
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.70.swarm";  // Rebel Box Cargo Transport
+        // }
+        // if ($allow["Cybrid"] == true)
+        // {
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.94.swarm";  // Cybrid Omnicrawler
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.95.swarm";  // Cybrid Protector
+            // %swarmMembers[%swarmCount++] = "wilzuun\\gameTypes\\dov\\vehicles\\veh.96.swarm";  // Cybrid Jamma
+        // }
+    // }
 
-    %rand = randomInt(1,%swarmCount);
+    // %rand = randomInt(1,%swarmCount);
     
-    return %swarmMembers[%rand];
-}
+    // return %swarmMembers[%rand];
+// }
 

@@ -11,7 +11,6 @@
 ##--------------------------- Settings
 
 ##--------------------------- Main Classification
-//
 //  Turning off either of these will override all options below. Flyers are not
 //    included due to them snapping to map locations, and being very hard to
 //    predict, and to hit with weapons.
@@ -21,15 +20,15 @@
 
 //  $allow["Tanks"] : boolean
 //    true : Enable AI tanks
-$allow["Tanks"]     = true;
+if ($allow["Tanks"] == "") $allow["Tanks"] = true;
 
 //  $allow["Hercs"] : boolean
 //    true : Enable AI Hercs
-$allow["Hercs"]     = true;
+if ($allow["Hercs"] == "") $allow["Hercs"] = true;
 
 //  $allow["Drone"] : boolean
 //    true : Enable AI Drones. (These typically have no weapons, so they're pretty much easy kills.
-// $allow["Drone"]     = true; // This is Broken. Research required to fix.
+if ($allow["Drone"] == "") $allow["Drone"] = true;  // This is Broken. Research required to fix.
 
 // Flyers aren't included at all in this project.
 
@@ -42,31 +41,31 @@ $allow["Hercs"]     = true;
 
 //  $allow["Terran"]  : boolean
 //    true : Will spawn in Terran vehicles.
-$allow["Terran"]    = true;
+if ($allow["Terran"] == "") $allow["Terran"] = true;
 
 //  $allow["Knight"]  : boolean
 //    true : Will spawn in Knight vehicles.
-$allow["Knight"]    = true;
+if ($allow["Knight"] == "") $allow["Knight"] = true;
 
 //  $allow["Pirate"]  : boolean
 //    true : Will spawn in Pirate vehicles.
-$allow["Pirate"]    = true;
+if ($allow["Pirate"] == "") $allow["Pirate"] = true;
 
 //  $allow["Rebel"]  : boolean
 //    true : Will spawn in Rebel vehicles.
-$allow["Rebel"]     = true;
+if ($allow["Rebel"] == "") $allow["Rebel"] = true;
 
 //  $allow["Cybrid"]  : boolean
 //    true : Will spawn in Cybrid vehicles.
-$allow["Cybrid"]    = true;
+if ($allow["Cybrid"] == "") $allow["Cybrid"] = true;
 
 //  $allow["Metagan"] : boolean
 //    true : Will spawn in Metagan vehicles.
-$allow["Metagan"]   = true;
+if ($allow["Metagan"] == "") $allow["Metagan"] = true;
 
 //  $allow["Special"] : boolean
 //    true : Will spawn in Special vehicles.
-$allow["Special"]   = false;
+if ($allow["Special"] == "") $allow["Special"] = false;
 
 ##--------------------------- Specialty Classification
 //
@@ -76,11 +75,11 @@ $allow["Special"]   = false;
 
 //  $allow["Disruptors"] : boolean
 //    true : Will spawn in Disruptor Tanks.
-$allow["Disruptors"]= false;
+if ($allow["Disruptors"] == "") $allow["Disruptors"] = false;
 
 //  $allow["Artillery"] : boolean
 //    true : Will spawn in Artillery Tanks.
-$allow["Artillery"] = false;
+if ($allow["Artillery"] == "") $allow["Artillery"] = false;
 
 
 ##--------------------------- Functions
@@ -162,7 +161,7 @@ function shape::Cleanup(%groupName, %id)
     if (shape::__IdUsed(%groupName, %id))
         deleteObject(%groupName @ %id );
     else
-        echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.")
+        echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.");
 }
 
 function spawnObject(%obj, %name)

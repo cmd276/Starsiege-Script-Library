@@ -4,8 +4,16 @@
 // LAST MOD:    2 Sep 2020
 // VERSION:     1.33.7
 
+##--------------------------- History
+// No recorded history before 12th of Jan, 2021.
+// 12th Jan, 2021
+//      Added in more documentation.
+//      Fixed a few typos that I noticed while doing documentation.
+
 ##--------------------------- Required Files
+// We require the StdLib for spawning objects.
 exec(wilzuunStdLib);
+// We require the Trig library to know *where* to spawn objects.
 exec(TrigonometryStdLib);
 
 ##--------------------------- On-The-Fly Settings
@@ -18,7 +26,7 @@ $Shape::zCenter     = true;
 
 //  $Shape::Object
 //      The object that we're going to be using for the sides.
-$Shape::Object        = "pr_emp";
+$Shape::Object      = "pr_emp";
 
 //  $Shape::markCenter : bool
 //      Mark the center of the Shape with a marker?
@@ -57,10 +65,33 @@ $Shape::GroupName   = "TheShape";
 
 ##--------------------------- Functions
 
+// %object 
+//      The object file name without the extension. 
+//  %sideCount
+//      The number of sides the shape should have.
+//  %radius
+//      How large the shape should be from center to a corner of the shape.
+//  %distance
+//      Distance between items on each side. (For filling in the sides, effectively making a wall.
+//  %xOffset, %yOffest, %zOffset
+//      Placement offsets from 0,0,0.
+//  %rod
+//      Rotation Of Degrees. Used for rotating the shape by a variable amount.
+//      Default is 0 degree rotation.
+//  %plane
+//      Plane selection variable. Determines whether or not to draw the shape "standing" or laying on the ground.
+//      Default is to lay flat.
+
+
 function Shape::Polygon(%object, %sideCount, %radius, %distance, %xOffset, %yOffset, %zOffset, %rod, %plane)
 {
+    if ( %object == "")
+    {
+        return echo("Shape::Polygon <%object> <%sideCount (2-99)> <%radius>");
+    }
+
     if (%sideCount < 2) return  echo("sideCount must be more than 1. Less than 2 is not permitted.");
-    if (%sideCount > 99) return echo("sideCount must be less than 100. Less than 2 is not permitted.");
+    if (%sideCount > 99) return echo("sideCount must be less than 100. More than 99 is not permitted.");
     
 
     %id = shape::getNextId($Shape::groupName);

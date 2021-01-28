@@ -41,7 +41,7 @@
 //  {
 //    %capture1 = getObjectId("MissionGroup\\Bases\\OmegaTrigger");
 //    %capture1.timeToCapture = 5;   // How long you have to sit on the pad to convert
-//    %capture1.secondsToHold = 60;	 // How long you have to hold the pad to score
+//    %capture1.secondsToHold = 60;     // How long you have to hold the pad to score
 //    %capture1.name = "Omega Base"; // Name of the pad
 //    %capture1.points = 10;         // How many points you get from the pad every .secondsToHold sec
 //    %capture1.zen = 1;             // Whether or not the pad acts as a zen pad

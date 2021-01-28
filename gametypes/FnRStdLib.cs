@@ -1,13 +1,13 @@
-// FILENAME:	FnRStdLib.cs
+// FILENAME:    FnRStdLib.cs
 //
-// AUTHORS:  	   Orogogus
+// AUTHORS:         Orogogus
 // EMAIL:        h2liu@iname.com
 // WEBSITE:      http://home.san.rr.com/orogogus
 // LAST UPDATED: 11:26 PM 2/6/00
 //
 //------------------------------------------------------------------------------
 
-// Edited for inclusion into Scripting library by Wilzuun.
+// Edited for inclusion into Scripting library by Wilzuun. Find n Retrieve
 
 
 function wilzuun::onMissionLoad()
@@ -72,10 +72,10 @@ function wilzuun::onMissionLoad()
 
 function wilzuun::vehicle::onAdd(%vehicle)
 {
-	%player = playerManager::vehicleIdToPlayerNum(%vehicle);
-	%player.name = getHUDName(%vehicle);
+    %player = playerManager::vehicleIdToPlayerNum(%vehicle);
+    %player.name = getHUDName(%vehicle);
 
-	%vehicle.flag = 0;
+    %vehicle.flag = 0;
   %vehicle.team = getTeam(%vehicle);
 }
 

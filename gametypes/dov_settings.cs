@@ -8,12 +8,12 @@
 
 //  $fixedSwarm : boolean :
 //    If true, Each AI is replaced with a fixed amount of AI.
-$fixedSwarm         = true;
+if ($fixedSwarm == "") $fixedSwarm = true;
 
 //  $swarmStatic : int
 //    The value of how many AI to spawn on AI spawn.
 //    (if $fixedSwarm == true)
-$swarmStatic        = 2;
+if ($swarmStatic == "") $swarmStatic = 2;
 
 //  $swarmDynanic : int
 //    (if $fixedSwarm == false)
@@ -21,11 +21,11 @@ $swarmStatic        = 2;
 //    On an AI death, will calculate how many AI to spawn. The value used here
 //      will be used as a base value. If you use 15, the first 14 AI deaths will
 //      spawn one AI, 15-29 will spawn 2 AI, 30-44 will spawn 3 AI, and so on.
-$swarmDynanic       = 2;
+if ($swarmDynanic == "") $swarmDynanic = 2;
 
 //  $swarmClone : boolean
 //      If this is true, will make all swarm AI spawned, clones of the player that "owns" them.
-$swarmClone         = false;
+if ($swarmClone == "") $swarmClone = false;
 
 ##--------------------------- Rewards System
 //
@@ -35,25 +35,25 @@ $swarmClone         = false;
 //  $pvpReward : boolean
 //    true : Turns on giving players incentive to kill other players.
 //    false : Players get nothing for killing another player.
-$pvpReward          = true;
+if ($pvpReward == "") $pvpReward = true;
 
 //  $pvpReload : boolean
 //    true : reload a player killer.
-$pvpReload          = true;
+if ($pvpReload == "") $pvpReload = true;
 
 //  $pvpHeal : boolean
 //    true : heal the killer
-$pvpHeal            = true;
+if ($pvpHeal == "") $pvpHeal = true;
 
 //  $pvpStopAI : boolean
 //    true : Player is made a member of the AI team. AI stop attacking them.
-$pvpStopAi          = true;
+if ($pvpStopAi == "") $pvpStopAi = true;
 
 //  $pvpTimeAi : int
 //    if $pvpStopAI == true
 //    The amount of time that the AI doesn't attack a player killer, and how long
 //      player killer is on the AI team. in seconds!
-$pvpTimeAi          = 60;
+if ($pvpTimeAi == "") $pvpTimeAi = 60;
 
 
 ##--------------------------- Success System
@@ -64,36 +64,36 @@ $pvpTimeAi          = 60;
 
 //  $pveReward : boolean
 //    true : They get rewards!
-$pveReward          = true;
+if ($pveReward == "") $pveReward = true;
 
 //  $pveArtillery : boolean
 //    true : Spawn artillery
-$pveArtillery       = true;
+if ($pveArtillery == "") $pveArtillery = true;
 
 //  $pveArtilleryChance : int
 //    1 - 100%, 2 - 50%, 3 - 33%, 4 - 25%, 5 - 20%, 10 - 10% ,
 //    100 - 1%, 50 - 2%, 33 - 3%, 25 - 4%, 20 - 5%
-$pveArtilleryChance = 5;
+if ($pveArtilleryChance == "") $pveArtilleryChance = 5;
 
 //  $pveArtWhen : int
 //    At how many kills will we start spawning artillery units against the player.
-$pveArtWhen         = 10;
+if ($pveArtWhen == "") $pveArtWhen = 10;
 
 //  $pveReload : boolean
 //    true : Stop reloading the player after so much time.
-$pveReload          = true;
+if ($pveReload == "") $pveReload = true;
 
 //  $pveReloadWhen : int
 //    When do we start neglecting the reload on kill?
-$pveReloadWhen      = 20;
+if ($pveReloadWhen == "") $pveReloadWhen = 20;
 
 //  $pveHeal : boolean
 //    true : Stop healing the player after so much time.
-$pveHeal            = true;
+if ($pveHeal == "") $pveHeal = true;
 
 //  $pveHealWhen : int
 //    When do we start neglecting the heal on kill?
-$pveHealWhen        = 20;
+if ($pveHealWhen == "") $pveHealWhen = 20;
 
 ##--------------------------- Stealth Detection
 //
@@ -101,18 +101,18 @@ $pveHealWhen        = 20;
 //    like the following:
 //    '// ^TFW^ DarkFlare'
 //    true is on, false is off.
-$stealthDetect      = true;
+if ($stealthDetect == "") $stealthDetect = true;
 
 ##--------------------------- Spawn Protection
 //
 //  Spawn Safety Switch
 //  $spawnSafetySwitch : bool
 //      Enables preventing AI from instantly attacking players.
-$spawnSafetySwitch = true;
+if ($spawnSafetySwitch == "") $spawnSafetySwitch = true;
 
 //  Spawn Protection. Puts players on Neutral team for X Seconds.
 //  $spawnSafetyBase : int
-$spawnSafetyBase = 5;
+if ($spawnSafetyBase == "") $spawnSafetyBase = 5;
 
 // Spawn Increment. Used as a buffer for more AI.
 // floor( player.AICount / spawnSafetyMod) + spawnSafetyBase;
@@ -121,79 +121,7 @@ $spawnSafetyBase = 5;
 // A player would have 9 seconds of being on Neutral Team.
 
 //  $spawnSafetyMod : int
-$spawnSafetyMod = 5;
-
-##--------------------------- Main Classification
-//
-//  Turning off either of these will override all options below. Flyers are not
-//    included due to them snapping to map locations, and being very hard to
-//    predict, and to hit with weapons.
-//
-//    Examples: tanks = true; hercs = false; Terran = true;
-//      Only Terran Tanks will spawn, no Terran hercs will show up.
-
-//  $allow["Tanks"] : boolean
-//    true : Enable AI tanks
-$allow["Tanks"]     = true;
-
-//  $allow["Hercs"] : boolean
-//    true : Enable AI Hercs
-$allow["Hercs"]     = true;
-
-//  $allow["Drone"] : boolean
-//    true : Enable AI Drones. (These typically have no weapons, so they're pretty much easy kills.
-$allow["Drone"]     = true; // This is Broken. Research required to fix.
-
-// Flyers aren't included at all in this project.
-
-##--------------------------- Faction Classification
-//
-//  These options matter if the above options are turned on.
-//    Example: Tanks = true; hercs = false; Terran = true; Knight = false;
-//      Only tanks will appear. Only Terran tanks will be spawned. Knight tanks
-//      will not appear at all
-
-//  $allow["Terran"]  : boolean
-//    true : Will spawn in Terran vehicles.
-$allow["Terran"]    = true;
-
-//  $allow["Knight"]  : boolean
-//    true : Will spawn in Knight vehicles.
-$allow["Knight"]    = true;
-
-//  $allow["Pirate"]  : boolean
-//    true : Will spawn in Pirate vehicles.
-$allow["Pirate"]    = true;
-
-//  $allow["Rebel"]  : boolean
-//    true : Will spawn in Rebel vehicles.
-$allow["Rebel"]    = true;
-
-//  $allow["Cybrid"]  : boolean
-//    true : Will spawn in Cybrid vehicles.
-$allow["Cybrid"]    = true;
-
-//  $allow["Metagan"] : boolean
-//    true : Will spawn in Metagan vehicles.
-$allow["Metagan"]   = true;
-
-//  $allow["Special"] : boolean
-//    true : Will spawn in Special vehicles.
-$allow["Special"]   = false;
-
-##--------------------------- Specialty Classification
-//
-//  These last two categories are in respects to groups of vehicles that players
-//    may find highly annoying, or undesirable for normal game play. They still 
-//    require their Faction Classification to be enabled to show up.
-
-//  $allow["Disruptors"] : boolean
-//    true : Will spawn in Disruptor Tanks.
-$allow["Disruptors"]= false;
-
-//  $allow["Artillery"] : boolean
-//    true : Will spawn in Artillery Tanks.
-$allow["Artillery"] = false;
+if ($spawnSafetyMod == "") $spawnSafetyMod = 5;
 
 ##--------------------------- History
 //
@@ -220,6 +148,9 @@ $allow["Artillery"] = false;
 //      mode. Added in Clone Mode.
 //      Updated history. Refactored death code. 
 //      
+//    3.1
+//      Changed how overriding settings works.
+//      Moved all vehicle configuration settings to wilzuunStdLib.cs
 
 ##--------------------------- Plans
 //

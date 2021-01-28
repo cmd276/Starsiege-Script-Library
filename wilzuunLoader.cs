@@ -24,29 +24,18 @@
 //      Fixed the DOV loading scripts section
 
 ##--------------------------- Required libraries. 
+newObject( wilzunnVol, SimVolume, "WilzuunTools.vol" );
 exec("TrigonometryStdLib.cs");
+exec("DefaultMissionLayout.cs");
 exec("pilots.cs");
-
-##--------------------------- Example Usage. 
-//  TO use DOV:
-## -- Start DOV Items.
-// $wilzuun::dov = true; // Tell the system we want DOV.
-// function DOVOverRide () // We want to change these specific settings... 
-// {
-//      $swarmClone = true; // Make all swam members a clone of hte player.
-// }
-// exec("WilzuunLoader.cs"); // Go ahead and run the Loader.
-## -- End DOV Items.
-
-// I will add an examples File later for each item.
 
 ##--------------------------- Loading function. 
 // Please don't edit below this line.
 // onMissionPreload executes before everything in your map file, and is a vastly under used function.
 // I utilize it for all of my projects.
-function onMissionPreload() ()
+function onMissionPreload()
 {
-    MissionPreLoad();
+    // MissionPreLoad();
     // First, due to complete map destruction.
     // if ($wilzuun::City == true)
     // {
@@ -92,64 +81,68 @@ function onMissionPreload() ()
     }
 
     // Load GameType... First one found, is game type that is going to run.
-    if ($wilzuun::GameType == "dov")
+    if (String::tolower($wilzuun::GameType) == "dov")
     {
         echo("Loading DOV Settings...");
         exec("dov_settings.cs");
-        echo("Overriding DOV Settings...");
-        wilzuun::OverRide();
         echo("Loading DOV Functionality...");
         exec("dov_functionality.cs");
     }
 
-    else if ($wilzuun::GameType == "tag")
+    else if (String::tolower($wilzuun::GameType) == "tag")
     {
         echo("Loading Tag Functionality...");
         exec("Tag_StdLib.cs");
     }
-    else if ($wilzuun::GameType == "tar")
+    else if (String::tolower($wilzuun::GameType) == "tar")
     {
         echo("Loading tar Functionality...");
         exec("tarStdLib.cs");
     }
-    else if ($wilzuun::GameType == "edm")
+    else if (String::tolower($wilzuun::GameType) == "edm")
     {
         echo("Loading EDM Functionality...");
         exec("EDM_StdLib.cs");
     }
-    else if ($wilzuun::GameType == "cnh")
+    else if (String::tolower($wilzuun::GameType) == "cnh")
     {
         echo("Loading CnH Functionality...");
         exec("CnHStdLib.cs");
     }
-    else if ($wilzuun::GameType == "ctf")
+    else if (String::tolower($wilzuun::GameType) == "ctf")
     {
         echo("Loading ctf Functionality...");
         exec("ctfStdLib.cs");
     }
-    else if ($wilzuun::GameType == "dm")
+    else if (String::tolower($wilzuun::GameType) == "dm")
     {
         echo("Loading dm Functionality...");
         exec("dmStdLib.cs");
     }
-    else if ($wilzuun::GameType == "FnR")
+    else if (String::tolower($wilzuun::GameType) == "fnr")
     {
         echo("Loading FnR Functionality...");
         exec("FnRStdLib.cs");
     }
-    else if ($wilzuun::GameType == "Harvest")
+    else if (String::tolower($wilzuun::GameType) == "harvest")
     {
         echo("Loading Harvest Functionality...");
         exec("Harvest_StdLib.cs");
     }
-    else if ($wilzuun::GameType == "CvH")
+    else if (String::tolower($wilzuun::GameType) == "cvh")
     {
         echo("Loading Harvest Functionality...");
         exec("Harvest_StdLib.cs");
+    }
+    else if (String::tolower($wilzuun::GameType) == "br")
+    {
+        echo("Loading Battle Royale Functionality...");
+        exec("BattleRoyaleStdLib.cs");
     }
     else 
     {
         // Do nothing... have a blank map... Maybe its traditional DM, or CTF with randomness to it... who knows.
     }
+    MissionPreLoad();
 }
 

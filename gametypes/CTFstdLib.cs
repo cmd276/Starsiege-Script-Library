@@ -28,7 +28,7 @@
 // MissionGroup\\<color>Base, containing:
 //    a staticShape called <color>Flag
 //    an ESNavmarker called NavPoint (optional)
-  	
+      
 //--------------------------------------------------------------------------------
 
 // Edited for inclusion into Scripting library by Wilzuun.
@@ -87,7 +87,7 @@ function wilzuun::setRules()
 
 function wilzuun::onMissionStart()
 {
-	initGlobalVars();
+    initGlobalVars();
 }
 
 function wilzuun::player::onAdd(%this)
@@ -102,17 +102,17 @@ function wilzuun::vehicle::onAdd(%this)
     {
         boost::vehicle::onAdd(%vehicleId);
     }
-	%team = getTeam(playerManager::vehicleIdToPlayerNum(%this));
-	%color = teamToColor(%team);
-	%flagKey = strcat(%color, "FlagCount");
-	
-   	adjTeamCount(%team, 1);
-	
-	//if the flag isn't at the base, but no one has it, correct situation
-	if(dataRetrieve(0, %flagKey) && !dataRetrieve(0, strcat(%color, "FlagCarried")))
-	{
-		setFlag(%team, true);
-	}
+    %team = getTeam(playerManager::vehicleIdToPlayerNum(%this));
+    %color = teamToColor(%team);
+    %flagKey = strcat(%color, "FlagCount");
+    
+       adjTeamCount(%team, 1);
+    
+    //if the flag isn't at the base, but no one has it, correct situation
+    if(dataRetrieve(0, %flagKey) && !dataRetrieve(0, strcat(%color, "FlagCarried")))
+    {
+        setFlag(%team, true);
+    }
 }
 
 //--------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ function wilzuun::vehicle::onDestroyed(%destroyed,%destroyer)
 
    if(%teamCount < 1)
    {
-	   setFlag(%team, false);					
+       setFlag(%team, false);                    
    }
 
    %color = dataRetrieve(%destroyed, "hasFlag");
@@ -185,7 +185,7 @@ function wilzuun::vehicle::onDestroyed(%destroyed,%destroyer)
 
          // echo the surrender to the console for logging
          echo(*IDSTR_CONSOLE_CTF_SURRENDER @ " " @ playerManager::vehicleIdToPlayerNum(%destroyed));                        
-      }	  
+      }      
    }
    else
    {
@@ -227,26 +227,26 @@ function setFlag(%team, %bool)
 {
    %color = teamToColor(%team);
 
-	%flagCountKey = strcat(%color, "FlagCount");
-	
-	// set flag to visible
-	if(%bool)
-	{
-      dataStore(0, %flagCountKey, 0);	
-   	setShapeVisibility(getObjectId(strcat("MissionGroup\\", %color, "Base\\", %color, "Flag")), true);   		 	
-	}
-	
-	// set flag to non-visible
-	else
-	{
-		dataStore(0, %flagCountKey, 1);
-		setShapeVisibility(getObjectId(strcat("MissionGroup\\", %color, "Base\\", %color, "Flag")),false);	
-	}
+    %flagCountKey = strcat(%color, "FlagCount");
+    
+    // set flag to visible
+    if(%bool)
+    {
+      dataStore(0, %flagCountKey, 0);    
+       setShapeVisibility(getObjectId(strcat("MissionGroup\\", %color, "Base\\", %color, "Flag")), true);                
+    }
+    
+    // set flag to non-visible
+    else
+    {
+        dataStore(0, %flagCountKey, 1);
+        setShapeVisibility(getObjectId(strcat("MissionGroup\\", %color, "Base\\", %color, "Flag")),false);    
+    }
 }
 
 function playerDropsFlag(%vehicle)
 {
-	// figure out which color of flag the guy is carrying
+    // figure out which color of flag the guy is carrying
    %color = dataRetrieve(%vehicle, "hasFlag");
    %team = colorToTeam(%color);
    // the player is no longer carrying this or any flag
@@ -258,11 +258,11 @@ function playerDropsFlag(%vehicle)
    
    if(%teamPlayerCount < 1)
    {
-      setFlag(%team, false);	
-   }	
+      setFlag(%team, false);    
+   }    
    else
-   {	
-   	setFlag(%team, true);   
+   {    
+       setFlag(%team, true);   
    }
    
    // reset the timer for this person
@@ -306,7 +306,7 @@ function checkFlagRetrieved(%team, %vehicle)
       %player.flagsCollected = %player.flagsCollected + 1;
 
       // echo the capture to the console for logging
-      echo(*IDSTR_CONSOLE_CTF_CAPTURE @ " " @ playerManager::vehicleIdToPlayerNum(%vehicle));      	               
+      echo(*IDSTR_CONSOLE_CTF_CAPTURE @ " " @ playerManager::vehicleIdToPlayerNum(%vehicle));                         
 
       %needMore = $maxFlagCount - %collectedCount;
       if (%needMore <= 0)
@@ -350,40 +350,40 @@ function initGlobalVars()
    $scoringFreeze = false;
    
    %playerCount = playerManager::getPlayerCount();
-	// clear all points for the players
+    // clear all points for the players
    for (%p = 0; %p < %playerCount; %p++)
-	{
-		%player = playerManager::getPlayerNum(%p);
-		%player.carriersKilled = 0;
-		%player.flagsCollected = 0;
+    {
+        %player = playerManager::getPlayerNum(%p);
+        %player.carriersKilled = 0;
+        %player.flagsCollected = 0;
       %player.genericKills = 0;
    }
    
 
-	dataStore(0, "blueFlagsCollected", 0);
-	dataStore(0, "redFlagsCollected", 0);
-	dataStore(0, "yellowFlagsCollected", 0);
-	dataStore(0, "purpleFlagsCollected", 0);
+    dataStore(0, "blueFlagsCollected", 0);
+    dataStore(0, "redFlagsCollected", 0);
+    dataStore(0, "yellowFlagsCollected", 0);
+    dataStore(0, "purpleFlagsCollected", 0);
 
-	dataStore(0, "blueCarriersKilled", 0);
-	dataStore(0, "redCarriersKilled", 0);
-	dataStore(0, "yellowCarriersKilled", 0);
-	dataStore(0, "purpleCarriersKilled", 0);
+    dataStore(0, "blueCarriersKilled", 0);
+    dataStore(0, "redCarriersKilled", 0);
+    dataStore(0, "yellowCarriersKilled", 0);
+    dataStore(0, "purpleCarriersKilled", 0);
 
-	dataStore(0, "blueFlagCount", 1);
-	dataStore(0, "redFlagCount", 1);
-	dataStore(0, "yellowFlagCount", 1);
-	dataStore(0, "purpleFlagCount", 1);
+    dataStore(0, "blueFlagCount", 1);
+    dataStore(0, "redFlagCount", 1);
+    dataStore(0, "yellowFlagCount", 1);
+    dataStore(0, "purpleFlagCount", 1);
 
-	dataStore(0, "yellowFlagCarried", 0);
-	dataStore(0, "blueFlagCarried", 0);
-	dataStore(0, "redFlagCarried", 0);
-	dataStore(0, "purpleFlagCarried", 0);
+    dataStore(0, "yellowFlagCarried", 0);
+    dataStore(0, "blueFlagCarried", 0);
+    dataStore(0, "redFlagCarried", 0);
+    dataStore(0, "purpleFlagCarried", 0);
 
-  	setShapeVisibility(getObjectId("MissionGroup\\yellowBase\\yellowFlag"), false);
-  	setShapeVisibility(getObjectId("MissionGroup\\blueBase\\blueFlag"), false);
-  	setShapeVisibility(getObjectId("MissionGroup\\redBase\\redFlag"), false);
-  	setShapeVisibility(getObjectId("MissionGroup\\purpleBase\\purpleFlag"), false);
+      setShapeVisibility(getObjectId("MissionGroup\\yellowBase\\yellowFlag"), false);
+      setShapeVisibility(getObjectId("MissionGroup\\blueBase\\blueFlag"), false);
+      setShapeVisibility(getObjectId("MissionGroup\\redBase\\redFlag"), false);
+      setShapeVisibility(getObjectId("MissionGroup\\purpleBase\\purpleFlag"), false);
    
    $yellowNavPoint = getObjectId("MissionGroup\\yellowBase\\NavPoint");
    $blueNavPoint = getObjectId("MissionGroup\\blueBase\\NavPoint");
@@ -393,31 +393,31 @@ function initGlobalVars()
 
 function winEvent(%team)
 {
-	%r = %g = %b = 0;
+    %r = %g = %b = 0;
 
-	if(%team == *IDSTR_TEAM_YELLOW)
-	{
-		%r = %g = 0.5;
-	}
-	
-	if(%team == *IDSTR_TEAM_BLUE)
-	{
-		%b = 0.5;
-	}
-	
-	if(%team == *IDSTR_TEAM_RED)
-	{
-		%r = 0.5;
-	}
-	
-	if(%team == *IDSTR_TEAM_PURPLE)
-	{
-		%r = 0.345;
-		%g = 0.1254;
-		%b = 0.254;
-	}
+    if(%team == *IDSTR_TEAM_YELLOW)
+    {
+        %r = %g = 0.5;
+    }
+    
+    if(%team == *IDSTR_TEAM_BLUE)
+    {
+        %b = 0.5;
+    }
+    
+    if(%team == *IDSTR_TEAM_RED)
+    {
+        %r = 0.5;
+    }
+    
+    if(%team == *IDSTR_TEAM_PURPLE)
+    {
+        %r = 0.345;
+        %g = 0.1254;
+        %b = 0.254;
+    }
 
-	// won decisively
+    // won decisively
    %winMessage =
       *IDMULT_CHAT_WON_GAME_1 @
       %team @
@@ -428,9 +428,9 @@ function winEvent(%team)
    
    // schedule the end of the game
    %orderFade = "fadeEvent(0, \"out\", 5, " @ %r @ "," @ %g @ "," @ %b @ " );";
-	schedule(%orderFade, 5);
-	
-	schedule("missionEndConditionMet();", 10);
+    schedule(%orderFade, 5);
+    
+    schedule("missionEndConditionMet();", 10);
    
    // freeze scoring
    $scoringFreeze = true;
@@ -440,7 +440,7 @@ function winEvent(%team)
 function checkFlagStolen(%team, %vehicle)
 {
    %color = teamToColor(%team);
-   	
+       
    // you just hit the trigger at an enemy base, is there a flag here?
    %flagCountKey = strcat(%color, "FlagCount");
    %flagCount = dataRetrieve(0, %flagCountKey);
@@ -497,7 +497,7 @@ function checkFlagStolen(%team, %vehicle)
    say( 0, 0, %str, %soundFile );
 
    // echo the steal to the console for logging
-   echo(*IDSTR_CONSOLE_CTF_STEAL @ " " @ playerManager::vehicleIdToPlayerNum(%vehicle));      	                     
+   echo(*IDSTR_CONSOLE_CTF_STEAL @ " " @ playerManager::vehicleIdToPlayerNum(%vehicle));                               
 
    if($flagTime != 0)
    {      
@@ -612,42 +612,42 @@ function carrierDeath(%vehicle)
 //-------------------------------------------------------------------------------
 function colorToTeam(%color)
 {
-	if(%color == "yellow")
-	{return *IDSTR_TEAM_YELLOW;}
-	if(%color == "blue")
-	{return *IDSTR_TEAM_BLUE;}
-	if(%color == "red")
-	{return *IDSTR_TEAM_RED;}
-	if(%color == "purple")
-	{return *IDSTR_TEAM_PURPLE;}
+    if(%color == "yellow")
+    {return *IDSTR_TEAM_YELLOW;}
+    if(%color == "blue")
+    {return *IDSTR_TEAM_BLUE;}
+    if(%color == "red")
+    {return *IDSTR_TEAM_RED;}
+    if(%color == "purple")
+    {return *IDSTR_TEAM_PURPLE;}
 
-	return 0;
+    return 0;
 }
 function teamToColor(%team)
 {
-	if(%team == *IDSTR_TEAM_YELLOW)
-	{return "yellow";}
-	if(%team == *IDSTR_TEAM_BLUE)
-	{return "blue";}
-	if(%team == *IDSTR_TEAM_RED)
-	{return "red";}
-	if(%team == *IDSTR_TEAM_PURPLE)
-	{return "purple";}
+    if(%team == *IDSTR_TEAM_YELLOW)
+    {return "yellow";}
+    if(%team == *IDSTR_TEAM_BLUE)
+    {return "blue";}
+    if(%team == *IDSTR_TEAM_RED)
+    {return "red";}
+    if(%team == *IDSTR_TEAM_PURPLE)
+    {return "purple";}
 
-	return 0;
+    return 0;
 }   
 
 //--------------------------------------------------------------------------------
 function getTeamPlayerCount(%team)
 {
-	%key = strcat(%team, "Count");
-	return dataRetrieve(0, %key);	
+    %key = strcat(%team, "Count");
+    return dataRetrieve(0, %key);    
 }
 
 function adjTeamCount(%team, %amount)
 {
-	%key = strcat(%team, "Count");
-	dataStore(0, %key, dataRetrieve(0, %key) + %amount);	
+    %key = strcat(%team, "Count");
+    dataStore(0, %key, dataRetrieve(0, %key) + %amount);    
 }
 
 //--------------------------------------------------------------------------------

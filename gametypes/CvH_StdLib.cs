@@ -39,12 +39,12 @@ function wilzuun::setRules()
                $missionName             @
                "\n\n<F2>RULES\\\\OBJECTIVES:\n" @
                "<F0>"@
-		   "1) CYBRIDS\\\\THE NEXT are assigned//allocated to RED team.\n" @
+           "1) CYBRIDS\\\\THE NEXT are assigned//allocated to RED team.\n" @
                "2) HUMANS\\\\ANIMALS are assigned//allocated to BLUE team.\n"@
                "3) Pilots\\\\Players who change vehicles\\\\warforms from one species to another\n"@
-		   "   will be forced to switch//alter teams.\n"@
-		   "4) All weapons, vehicles, padkilling, vulturing, etc. are LEGAL//ALLOWED.\n"@
-		   "5) Tech Mixing is off!  This is true Cybrid tech versus Human tech.\n"@
+           "   will be forced to switch//alter teams.\n"@
+           "4) All weapons, vehicles, padkilling, vulturing, etc. are LEGAL//ALLOWED.\n"@
+           "5) Tech Mixing is off!  This is true Cybrid tech versus Human tech.\n"@
                "<tIDMULT_TDM_SCORING_1>"  @
                "<tIDMULT_TDM_SCORING_2>"  @
                $killPoints                @
@@ -55,7 +55,7 @@ function wilzuun::setRules()
                "<tIDMULT_TDM_SCORING_6>"  @
                "<F2>SERVER RULES/INFORMATION:<F0>  This map was made by Temujin.  "      @ 
                "This and other maps, skins, and training materials can be downloaded from Tem's website:\n" @
- 		   "   http://www6.50megs.com/temujin (yes, that really is www6!)\n\n";
+            "   http://www6.50megs.com/temujin (yes, that really is www6!)\n\n";
 
    setGameInfo(%rules);      
 }

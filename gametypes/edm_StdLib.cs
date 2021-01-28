@@ -105,28 +105,28 @@ function countTeams()
 
   if(%teamCount == 1)
   {
-    messageBox(0, "Yellow Team wins the round!");	
+    messageBox(0, "Yellow Team wins the round!");    
     endMission();
   }
   else if(%teamCount == 2)
   {
-    messageBox(0, "Blue Team wins the round!");	
+    messageBox(0, "Blue Team wins the round!");    
     endMission();
   }
   else if(%teamCount == 4)
   {
-    messageBox(0, "Red Team wins the round!");	
+    messageBox(0, "Red Team wins the round!");    
     endMission();
   }
   else if(%teamCount == 8)
   {
-    messageBox(0, "Purple Team wins the round!");	
+    messageBox(0, "Purple Team wins the round!");    
     endMission();
   }
 
   else if(%teamCount == 0)
   {
-    messageBox(0, "Everyone's dead, game is a draw");	
+    messageBox(0, "Everyone's dead, game is a draw");    
     endMission();
   }
 }

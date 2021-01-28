@@ -3,7 +3,8 @@
 // AUTHORS:     ^TFW^ Wilzuun
 // LAST MOD:    29 Sep, 2020
 // VERSION:     1.0r
-// NONTES:      Targeting Game. Target some one and die.
+// NOTES:       Targeting Game. Target some one and die.
+//              This file was created, tested, and modified in a day.
 ##--------------------------- Version History
 //  1.0r
 //      - Initial startup.
@@ -12,7 +13,7 @@ $wilzuun::GameMode = "tdm";
 
 function wilzuun::setRules()
 {
-    %rules = "<jc><f2>The game's made up and the Targeting Doesn't Matter.\n\n<y17>";
+    %rules = "<jc><f2>The game's made up and the Targeting Doesn't Matter.\n\nHere's some advice, don't target things.<y17>";
 
     setGameInfo(%rules);
     return %rules;

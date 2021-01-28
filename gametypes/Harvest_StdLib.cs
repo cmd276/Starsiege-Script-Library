@@ -76,7 +76,7 @@ function wilzuun::setDefaultMissionOptions()
 {
   $server::TeamPlay = true;
   $server::AllowDeathmatch = false;
-  $server::AllowTeamPlay = true;	
+  $server::AllowTeamPlay = true;    
 
   $server::AllowTeamRed = true;
   $server::AllowTeamBlue = true;
@@ -250,7 +250,7 @@ if($HarvLog == true)
    cdAudioCycle("Purge", "Newtech", "Cyberntx"); 
 
      %rules = "<F2>GAMETYPE:\n" @ 
-       		"<F0>Harvester \n\n" @
+               "<F0>Harvester \n\n" @
                "<tIDMULT_TDM_MAPNAME>"    @ 
                $missionName               @
        "\n\n<F2>RULES/OBJECTIVES:\n"      @
@@ -2492,51 +2492,51 @@ function getVehValue(%vehicleId)
 function getVehValue1(%vehicle)
 {
   if(%vehicle == "Apocalypse") return 2540;
-	else if(%vehicle == "Knight's Apocalypse") return 2670;
-	else if(%vehicle == "Basilisk") return 2000;
-	else if(%vehicle == "Knight's Basilisk") return 2325;
-	else if(%vehicle == "Emancipator") return 1730;
-	else if(%vehicle == "Gorgon") return 3350;
-	else if(%vehicle == "Knight's Gorgon") return 3805;
-	else if(%vehicle == "Minotaur") return 1300;
-	else if(%vehicle == "Knight's Minotaur") return 1650;
-	else if(%vehicle == "Olympian") return 3150;
-	else if(%vehicle == "Talon") return 1000;
-	else if(%vehicle == "Knight's Talon") return 1250;
+    else if(%vehicle == "Knight's Apocalypse") return 2670;
+    else if(%vehicle == "Basilisk") return 2000;
+    else if(%vehicle == "Knight's Basilisk") return 2325;
+    else if(%vehicle == "Emancipator") return 1730;
+    else if(%vehicle == "Gorgon") return 3350;
+    else if(%vehicle == "Knight's Gorgon") return 3805;
+    else if(%vehicle == "Minotaur") return 1300;
+    else if(%vehicle == "Knight's Minotaur") return 1650;
+    else if(%vehicle == "Olympian") return 3150;
+    else if(%vehicle == "Talon") return 1000;
+    else if(%vehicle == "Knight's Talon") return 1250;
   else getVehValue2(%vehicle);
 }
 
 
 function getVehValue2(%vehicle)
 {
-	if(%vehicle == "Adjudicator") return 2705;
-	else if(%vehicle == "Platinum Guard Adjudicator") return 2995;
-	else if(%vehicle == "Executioner") return 3600;
-	else if(%vehicle == "Platinum Guard Executioner") return 4010;
-	else if(%vehicle == "Goad") return 1600;
-	else if(%vehicle == "Shepherd") return 1810;
-	else if(%vehicle == "Seeker") return 1205;
-	else if(%vehicle == "Metagen Goad") return 1600;
-	else if(%vehicle == "Metagen Seeker") return 1205;
-	else if(%vehicle == "Metagen Shepherd") return 1810;
+    if(%vehicle == "Adjudicator") return 2705;
+    else if(%vehicle == "Platinum Guard Adjudicator") return 2995;
+    else if(%vehicle == "Executioner") return 3600;
+    else if(%vehicle == "Platinum Guard Executioner") return 4010;
+    else if(%vehicle == "Goad") return 1600;
+    else if(%vehicle == "Shepherd") return 1810;
+    else if(%vehicle == "Seeker") return 1205;
+    else if(%vehicle == "Metagen Goad") return 1600;
+    else if(%vehicle == "Metagen Seeker") return 1205;
+    else if(%vehicle == "Metagen Shepherd") return 1810;
   else getVehValue3(%vehicle);
 }
 
 
 function getVehValue3(%vehicle)
 {
-	if(%vehicle == "Avenger") return 1830;
-	else if(%vehicle == "Disrupter") return 2700;
-	else if(%vehicle == "Knight's Disrupter") return 2880;
-	else if(%vehicle == "Dreadlock") return 2215;
-	else if(%vehicle == "Harabec's Predator") return 3510;
-	else if(%vehicle == "Myrmidon") return 3035;
-	else if(%vehicle == "Knight's Myrmidon") return 3215;
-	else if(%vehicle == "Paladin") return 2005;
-	else if(%vehicle == "Knight's Paladin") return 2300;
-	else if(%vehicle == "Bolo") return 1470;
-	else if(%vehicle == "Recluse") return 1720;
-	else return 5000;
+    if(%vehicle == "Avenger") return 1830;
+    else if(%vehicle == "Disrupter") return 2700;
+    else if(%vehicle == "Knight's Disrupter") return 2880;
+    else if(%vehicle == "Dreadlock") return 2215;
+    else if(%vehicle == "Harabec's Predator") return 3510;
+    else if(%vehicle == "Myrmidon") return 3035;
+    else if(%vehicle == "Knight's Myrmidon") return 3215;
+    else if(%vehicle == "Paladin") return 2005;
+    else if(%vehicle == "Knight's Paladin") return 2300;
+    else if(%vehicle == "Bolo") return 1470;
+    else if(%vehicle == "Recluse") return 1720;
+    else return 5000;
 }
 
 
