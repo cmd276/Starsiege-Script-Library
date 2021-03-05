@@ -87,6 +87,12 @@ if ($allow["Artillery"] == "") $allow["Artillery"] = false;
 //      Returns the absolute value of %int.
 function abs(%this)
 {
+    if (%this == "")
+    {
+        echo("abs NUMBER");
+        echo("Returns the absolute value of a number.");
+        return;
+    }
     if (%this > -%this)
         return %this;
     else
@@ -97,6 +103,12 @@ function abs(%this)
 //      Returns the smallest number in a collection.
 function min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
 {
+    if (%n0 == "")
+    {
+        echo("min NUMBER [NUMBER ...]");
+        echo("Can take up to ten numbers. Will return smallest number in collection. Requires at least one number.");
+        return;
+    }
     %min = %n0;
     for (%count = 0; %count < 10; %count = %count+1)
     {
@@ -111,6 +123,12 @@ function min(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
 //      Returns the largest number in a collection.
 function max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
 {
+    if (%n0 == "")
+    {
+        echo("max NUMBER  [NUMBER ...]");
+        echo("Can take up to ten numbers. Will return largest number in collection. Requires at least one number.");
+        return;
+    }
     %max = %n0;
     for (%count = 0; %count < 10; %count = %count+1)
     {
@@ -121,54 +139,173 @@ function max(%n0, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8, %n9)
     return %max;
 }
 
+//  startRotation( ObjectID, DelayTimer, RotationInDegrees)
+//      %id - ObjectID - Required.
+//      %delay - Float - Optional
+//      %rotation - Int - Optional
+function startRotation (%id, %delay, %rotation)
+{
+    // If we don't have an ID, tell them how to use this...
+    if (%id == "")
+    {
+        echo("startRotation ObjectID [Delay_Timer] [Rotation_Amount]");
+        echo("Starts rotation an Object. Delay_Timer is how fast the rotation is. Rotation_Amount is how much hte ObjectID is rotated at a time.");
+        return;
+    }
+    
+    // Turn on Rotation on this object.
+    (%id).rotationEnabled = true;
+    
+    // If delay isnt set, give them a default value. The save it on the object.
+    if (%delay == "") 
+        %delay = 0.05;
+    (%id).rotationDelay = %delay;
+
+    // If rotation isn't set, give a default, then save it on the object.
+    if(%rotation == "") 
+        %rotation = 1;
+    (%id).rotationAmount = %rotation;
+
+    // This is an internal item. Used to keep a running total of the rotation number.
+    if ((%id).rotationValue == "") 
+        (%id).rotationValue = 0;
+
+    // Set a timer to run the actual loop.
+    schedule("rotateObject(" @ %id @ ");",(%id).rotationDelay);
+}
+
+// rotateObjecr ( ObjectID )
+//      ObjectID - an object ID to be referenced. - REQUIRED.
+// This is the actual script to rotate an object. End users shouldn't use it directly.
+function rotateObject(%id)
+{
+    // We need an id... if we dont have it, explain it.
+    if (%id == "")
+    {
+        echo("rotateObject ObjectID");
+        echo("Rotates an Object.");
+        return;
+    }
+    
+    // If we've been cancelled, do nothing.
+    if ((%id).rotationEnabled == true)
+    {
+        // we need the current location... we're not really changing it.
+        %x = getPosition(%id, x);
+        %y = getPosition(%id, y);
+        %z = getPosition(%id, z);
+        // set the rotation. Take the MODULOUS of the value from 360.
+        (%id).rotationValue = ((%id).rotationValue + (%id).rotationAmount) % 360;
+        // set the position.
+        setPosition(%id, %x, %y, %z, (%id).rotationValue);
+        // Set a timer to run again.
+        schedule("rotateObject(" @ %id @ ");", (%id).rotationDelay);
+    }
+}
+
+//  stopRotation( ObjectID )
+//      ObjectID - Object ID - Required.
+function stopRotation(%id)
+{
+    // we need an id... explain if we dont have it.
+    if (%id == "")
+    {
+        echo("stopRotation ObjectID");
+        echo("Stops the rotation of ObjectID.");
+        return;
+    }
+    // Disable the rotation.
+    (%id).rotationEnabled = false;
+}
+
 //  shape::getNextId(%groupName) : int
 //      Starts up a check for a used ID, and returns the first identified unused ID for the %groupName supplied.
 //      Example: Currently existing groups for `Circle`: Circle0, Circle2. Running this will return 1. A seecond call would return 3.
 function shape::getNextId(%groupName)
 {
+    // We need a groupName, explain it.
+    if (%groupName == "")
+    {
+        echo("shape::getNextId GroupName");
+        echo("Checks for a used ID, and returns the first identified unused ID");
+        return;
+    }
+    // Start at zero, increment by 1, check again.
     %checkId = 0;
     while(shape::__IdUsed(%groupName, %checkId))
     {
         %checkId = %checkId + 1;
     }
+    // return the first Available ID.
     return %checkId;
 }
 
 //  shape::__IdUsed(%groupName, %id) : boolean
-//      Checks each item at the MissionGroup base level for a group called %groupName followed by a a number designation of %id.
+//      Checks each item at the MissionGroup base level for a group called %groupName followed by a number designation of %id.
 //      Example: Existing `Circle` groups: Circle0, Circle1, Circle2
 //          Supplying 1 as an ID, would give you `true`, using 3 as an ID would result in a `false`
 function shape::__IdUsed(%groupName, %id)
 {
+    // we need a groupName and a group ID.
+    if (%groupName == "" || %id == "")
+    {
+        echo("shape::__IdUsed GroupName Number");
+        echo("Checks each item at the MissionGroup base level for a group called GroupName followed by a number designation of NUMBER.");
+        return;
+    }
+
+    // Grab all the root items in MissionGroup.
     %group = getObjectId("MissionGroup");
+    // Get the first item.
     %item = getNextObject(%group, 0);
+    // Check each item.
     for (%count = 0; %item != 0; %count = %count+1)
     {
+        // If the object is equal to our groupName and ID, return true.
         if (getObjectName(%item) == %groupName @ %id)
         {
             return true;
         }
+        // set the next item to be checked.
         %item = getNextObject(%group, %item);
     }
+    // we never found it... report false.
     return false;
 }
 
+// shape::Cleanup(%groupName, %id)
+//      GROUPNAME - STRING - REQUIRED
+//      ID - INT - REQUIRED
 function shape::Cleanup(%groupName, %id)
 {
+    // if no groupName or ID, explain we need them.
     if (%obj == "" || %id == "")
-        return echo("shape::Cleanup <GroupName> <id>");
+    {
+        echo("shape::Cleanup GroupName Number");
+        echo("Deletes GroupName with an id of NUMBER");
+        return;
+    }
 
+    // if it exists, delete it. Otherwise, report it couldn't be found.
     if (shape::__IdUsed(%groupName, %id))
         deleteObject(%groupName @ %id );
     else
         echo("Group ID " @ %id @ " for the groupName of " @ %groupName @ " not found.");
 }
 
+//  spawnObject ( %obj, %name)
+//      %OBJ - Object File name with out the extension. - Required.
+//      %name - String, an optional name to give the Object when it gets spawned. - Optional
+//      returns the Object's ID.
 function spawnObject(%obj, %name)
 {
     // check for %obj being set. Otherwise reject.
     if (%obj == "")
-        return echo("spawnObject <%obj> [%name]");
+    {
+        echo("spawnObject Object [Name]");
+        echo("Finds, creates, and spawns an object into the map. Doesn't require DTS or DIS clarification. Doesn't work on vehicles or turrets. NAME is optional.");
+        return;
+    }
     // A name isn't required, and if they opt out of it, make the %name equal to the %obj value.
     if (%name == "")
         %name = %obj;
@@ -202,13 +339,16 @@ function getObjectType(%objName)
     // if they omit the %objName, inform them they need it.
     if (%objName == "")
     {
-        echo("getObjectType <%obj>");
+        echo("getObjectType ObjectName");
+        echo("Takes a file name without the extension. If it exists, will return its type. If unfound will report doesnt exist.");
         return false;
     }
+    // Static Shape file extension.
     if (GetPathOf(%objName @ ".dts") != "")
     {
         return StaticShape;
     }
+    // Static Interior file extension.
     else if (GetPathOf(%objName @ ".dis") != "")
     {
         return StaticInterior;
