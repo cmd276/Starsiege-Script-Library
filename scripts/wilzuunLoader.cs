@@ -24,7 +24,7 @@
 //      Fixed the DOV loading scripts section
 
 ##--------------------------- Required libraries. 
-newObject( wilzunnVol, SimVolume, "WilzuunTools.vol" );
+newObject( wilzuunVol, SimVolume, "WilzuunTools.vol" );
 exec("TrigonometryStdLib.cs");
 exec("DefaultMissionLayout.cs");
 exec("pilots.cs");
