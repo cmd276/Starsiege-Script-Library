@@ -36,19 +36,21 @@ $dps::quad['2'] = true; // N.W
 $dps::quad['3'] = true; // S.W
 $dps::quad['4'] = true; // S.E
 
+// The parameters used here, are for quick set, overrides. 
+// 
 function dps::getDirection(%quad1, %quad2, %quad3, %quad4)
 {
     %count = -1;
     if (%quad1 == 1 || %quad1 == true) %opt[%count++] = randomInt(0,89);
     else if (%quad1 == "" && $dps::quad['1'] == true) %opt[%count++] = randomInt(0,89);
 
-    if (%quad2 == 1 || %quad2 == true) %opt[%count++] = randomInt(0,89);
+    if (%quad2 == 1 || %quad2 == true) %opt[%count++] = randomInt(90,179);
     else if (%quad2 == "" && $dps::quad['2'] == true) %opt[%count++] = randomInt(90,179);
 
-    if (%quad3 == 1 || %quad3 == true) %opt[%count++] = randomInt(0,89);
+    if (%quad3 == 1 || %quad3 == true) %opt[%count++] = randomInt(180,269);
     else if (%quad3 == "" && $dps::quad['3'] == true) %opt[%count++] = randomInt(180,269);
 
-    if (%quad4 == 1 || %quad4 == true) %opt[%count++] = randomInt(0,89);
+    if (%quad4 == 1 || %quad4 == true) %opt[%count++] = randomInt(270,359);
     else if (%quad4 == "" && $dps::quad['4'] == true) %opt[%count++] = randomInt(270,359);
 
     return %opt[randomInt(0,%count)];
@@ -65,11 +67,9 @@ function dps::verifyVariables()
 {
     if ($dps::space['distance'] < 0)
         $dps::space['distance'] = abs($dps::space['distance']);
-    
     %mod = $dps::jitter/360;
     if (%mod != floor(%mod))
         return false;
-
     return true;
 }
 

@@ -1,3 +1,6 @@
+// Loading all the functions from specific StdLib.cs
+exec("GameTypeStdLib.cs");
+
 ## -------------------------------------------------------------------- onMission
 function onMissionLoad()
 {
