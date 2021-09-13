@@ -16,3 +16,4 @@ Prior to 13th of September, 2021
 13th of September, 2021
 - Updated read.me ever so slightly.
 - Added webhook to discord.
+- - Updated webhook, since it was configured wrong.
